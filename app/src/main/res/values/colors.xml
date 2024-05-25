@@ -2,4 +2,12 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="yellow">#D5EFC14F</color>
+    <color name="textColorPrimary">#333333</color>
+    <color name="textColorSecondary">#555555</color>
+    <color name="backgroundColor">#FFFFFF</color>
+    <color name="grey">#D6D2D2</color> <!-- Grey color -->
+    <color name="lightGrey">#F1EEEE</color> <!-- Grey color -->
+    <color name="lightPink">#FFC0CB</color> <!-- Pink color -->
+    <color name="pink">#E16E98</color> <!-- Darker pink color -->
 </resources>
