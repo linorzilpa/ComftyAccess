@@ -11,6 +11,7 @@ import androidx.navigation.NavDirections
 import androidx.navigation.fragment.findNavController
 import com.example.comftyaccess.databinding.FragmentSignInBinding
 
+
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 private const val ARG_PARAM1 = "param1"
@@ -43,7 +44,9 @@ class SignInFragment : Fragment() {
             val action = SignInFragmentDirections.actionSignInFragmentToSignUpFragment()
             findNavController().navigate(action)
         }
-          binding.signInBtn.setOnClickListener { view2 ->
+        
+        binding.signInBtn.setOnClickListener { view2 ->
+
             val i = Intent(activity, MainActivity::class.java)
             val email:String = binding.emailEditText.toString()
             val pass:String = binding.passEditText.toString()
@@ -52,6 +55,9 @@ class SignInFragment : Fragment() {
         }
 
         return binding.root
+        override fun onStart() {
+        super.onStart()
+        (activity as AppCompatActivity?)!!.supportActionBar!!.title = "Sign in"
     }
      override fun onStart() {
         super.onStart()
