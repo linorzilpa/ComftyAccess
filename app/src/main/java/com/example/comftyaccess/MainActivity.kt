@@ -32,7 +32,7 @@ class MainActivity : AppCompatActivity() {
         }
 
 
-        val navHostFragment = supportFragmentManager.findFragmentById(R.id.connect_nav_host) as? NavHostFragment
+        val navHostFragment = supportFragmentManager.findFragmentById(R.id.main_nav_host) as? NavHostFragment
 
 
         navController = navHostFragment?.navController ?: throw RuntimeException("NavController not found")
