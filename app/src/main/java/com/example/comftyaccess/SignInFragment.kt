@@ -44,15 +44,22 @@ class SignInFragment : Fragment() {
             val action = SignInFragmentDirections.actionSignInFragmentToSignUpFragment()
             findNavController().navigate(action)
         }
+        
         binding.signInBtn.setOnClickListener { view2 ->
+
             val i = Intent(activity, MainActivity::class.java)
             val email:String = binding.emailEditText.toString()
             val pass:String = binding.passEditText.toString()
 
             startActivity(i)
         }
+
         return binding.root
         override fun onStart() {
+        super.onStart()
+        (activity as AppCompatActivity?)!!.supportActionBar!!.title = "Sign in"
+    }
+     override fun onStart() {
         super.onStart()
         (activity as AppCompatActivity?)!!.supportActionBar!!.title = "Sign in"
     }

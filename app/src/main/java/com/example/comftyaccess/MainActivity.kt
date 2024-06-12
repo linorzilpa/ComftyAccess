@@ -21,6 +21,7 @@ class MainActivity : AppCompatActivity() {
         enableEdgeToEdge()
         setContentView(R.layout.activity_main)
 
+
         val toolbar: Toolbar = findViewById(R.id.mainToolbar)
         setSupportActionBar(toolbar)
 
@@ -30,7 +31,10 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
+
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.connect_nav_host) as? NavHostFragment
+
+
         navController = navHostFragment?.navController ?: throw RuntimeException("NavController not found")
         setupActionBarWithNavController(navController)
 
