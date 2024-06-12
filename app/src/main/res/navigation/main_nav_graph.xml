@@ -10,4 +10,19 @@
         android:name="com.example.comftyaccess.AllReviewsFragment"
         android:label="fragment_all_reviews"
         tools:layout="@layout/fragment_all_reviews" />
+    <fragment
+        android:id="@+id/myProfileFragment"
+        android:name="com.example.comftyaccess.MyProfileFragment"
+        android:label="fragment_my_profile"
+        tools:layout="@layout/fragment_my_profile" >
+        <argument
+            android:name="email"
+            app:argType="string" />
+    </fragment>
+    <action android:id="@+id/action_global_myProfileFragment" app:destination="@id/myProfileFragment" /><action android:id="@+id/action_global_allReviewsFragment" app:destination="@id/allReviewsFragment"/>
+    <fragment
+        android:id="@+id/filterFragment"
+        android:name="com.example.comftyaccess.FilterFragment"
+        android:label="fragment_filter"
+        tools:layout="@layout/fragment_filter" /><action android:id="@+id/action_global_filterFragment" app:destination="@id/filterFragment"/>
 </navigation>
