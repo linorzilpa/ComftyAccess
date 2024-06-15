@@ -1,7 +1,9 @@
 package com.example.comftyaccess
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
+import android.view.Menu
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
@@ -47,7 +49,7 @@ class MainActivity : AppCompatActivity() {
             when (item.itemId) {
                 R.id.nav_profile -> {
                     val bundle = Bundle()
-                    bundle.putString("email", email)
+                    bundle.putString("email", "try")
                     navController.navigate(R.id.action_global_myProfileFragment, bundle)
                     true
                 }
@@ -65,9 +67,31 @@ class MainActivity : AppCompatActivity() {
 
 
         }
-            
+        override fun onCreateOptionsMenu(menu: Menu): Boolean {
+            menuInflater.inflate(R.menu.top_nav_menu, menu)
+            return true // Return true to display the menu
+        }     
     }
     override fun onSupportNavigateUp(): Boolean {
         return navController.navigateUp() || super.onSupportNavigateUp()
+    }
+        override fun onOptionsItemSelected(item: android.view.MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.action_map -> {
+                navController.navigate(R.id.action_global_mapFragment)
+                true
+            }
+            R.id.action_add -> {
+                navController.navigate(R.id.action_global_addReviewFragment)
+                true
+            }
+            R.id.action_logout -> {
+                val i = Intent(this, ConnectActivity::class.java)
+                startActivity(i)
+                true
+            }
+
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 }
