@@ -1,6 +1,5 @@
 package com.example.comftyaccess
 
-import Review
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,15 +8,13 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.comftyaccess.databinding.FragmentAllReviewsBinding
-import com.example.comftyaccess.databinding.FragmentSignUpBinding
+import com.example.comftyaccess.model.Review
 
 class AllReviewsFragment : Fragment() {
-    private lateinit var recyclerView: RecyclerView
-    private lateinit var reviewAdapter: ReviewRecyclerAdapter
-    private lateinit var binding: FragmentAllReviewsBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,17 +31,19 @@ class AllReviewsFragment : Fragment() {
             inflater: LayoutInflater, container: ViewGroup?,
             savedInstanceState: Bundle?
         ): View {
-            // Using view binding to inflate the layout
             binding = FragmentAllReviewsBinding.inflate(inflater, container, false)
-//
-//            // Setup RecyclerView with LinearLayoutManager (also grid option)
-            binding?.allReviewsRv?.layoutManager = LinearLayoutManager(context)
-//
-//            // Initialize the adapter and set it to the RecyclerView
-            reviewRecyclerAdapter = ReviewRecyclerAdapter(LayoutInflater.from(context),viewModel.data.getValue())
-            binding?.allReviewsRv?.adapter = reviewRecyclerAdapter
+            viewModel = ViewModelProvider(this).get(AllReviewsViewModel::class.java)
 
-            // Return the root view from the binding
+            reviewRecyclerAdapter = ReviewRecyclerAdapter(LayoutInflater.from(context), emptyList())
+            binding!!.allReviewsRv.layoutManager = LinearLayoutManager(context)
+            binding!!.allReviewsRv.adapter = reviewRecyclerAdapter
+
+            viewModel.data.observe(viewLifecycleOwner) { reviews ->
+                // Update your UI here with the list of reviews
+                reviewRecyclerAdapter.data = reviews
+                reviewRecyclerAdapter.notifyDataSetChanged()
+            }
+
             return binding!!.root
         }
 
