@@ -1,14 +1,15 @@
 package com.example.comftyaccess.model
 
-import Review
 import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.example.comftyaccess.MyApplication
+import com.example.comftyaccess.model.Review
 
 
-@Database(entities = [Review::class], version = 2, exportSchema = false)
+
+@Database(entities = [Review::class], version = 5, exportSchema = false)
 abstract class AppLocalDBRepository : RoomDatabase() {
     abstract fun reviewDao(): ReviewDao
 }

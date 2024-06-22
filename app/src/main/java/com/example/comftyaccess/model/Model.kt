@@ -1,6 +1,6 @@
 package com.example.comftyaccess.model
 
-import Review
+import android.util.Log
 import androidx.lifecycle.LiveData
 
 class Model {
@@ -25,9 +25,8 @@ class Model {
     }
 
     fun getAllReviews(): LiveData<List<Review>> {
-        if (reviewsList == null) {
-            reviewsList = localDb.reviewDao().getAllReviews()
-        }
-        return reviewsList!!
+        val reviewsList = localDb.reviewDao().getAllReviews()
+        Log.d("AllReviewsFragment", "Attempting to log size of LiveData which is not directly possible")
+        return reviewsList
     }
 }
