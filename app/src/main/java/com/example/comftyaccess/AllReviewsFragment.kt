@@ -1,5 +1,7 @@
 package com.example.comftyaccess
 
+import Review
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -7,25 +9,58 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.comftyaccess.model.Review
-
+import com.example.comftyaccess.databinding.FragmentAllReviewsBinding
+import com.example.comftyaccess.databinding.FragmentSignUpBinding
 
 class AllReviewsFragment : Fragment() {
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var reviewAdapter: ReviewRecyclerAdapter
+    private lateinit var binding: FragmentAllReviewsBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_all_reviews, container, false)
+    @SuppressLint("MissingInflatedId")
+    class AllReviewsFragment : Fragment() {
+        private var binding: FragmentAllReviewsBinding? = null
+        private lateinit var reviewRecyclerAdapter: ReviewRecyclerAdapter
+        private lateinit var viewModel: AllReviewsViewModel
+
+        override fun onCreateView(
+            inflater: LayoutInflater, container: ViewGroup?,
+            savedInstanceState: Bundle?
+        ): View {
+            // Using view binding to inflate the layout
+            binding = FragmentAllReviewsBinding.inflate(inflater, container, false)
+//
+//            // Setup RecyclerView with LinearLayoutManager (also grid option)
+            binding?.allReviewsRv?.layoutManager = LinearLayoutManager(context)
+//
+//            // Initialize the adapter and set it to the RecyclerView
+            reviewRecyclerAdapter = ReviewRecyclerAdapter(LayoutInflater.from(context),viewModel.data.getValue())
+            binding?.allReviewsRv?.adapter = reviewRecyclerAdapter
+
+            // Return the root view from the binding
+            return binding!!.root
+        }
+
+        override fun onDestroyView() {
+            super.onDestroyView()
+            binding = null // Clean up the binding when the view is destroyed
+        }
     }
 
-       internal class AllReviewsViewHolder(itemView: View, listener: OnItemClickListener?) :
+
+
+    internal class AllReviewsViewHolder(itemView: View, listener: OnItemClickListener?) :
         RecyclerView.ViewHolder(itemView) {
         var hotelnameTV: TextView
+        lateinit var ageTV: TextView
+        lateinit var disTV: TextView
         var avatarImg: ImageView
         var star1: ImageView
         var star2: ImageView
@@ -43,10 +78,14 @@ class AllReviewsFragment : Fragment() {
             avatarImg = itemView.findViewById(R.id.row_iv)
             itemView.setOnClickListener {
                 val pos = getAdapterPosition()
-                listener!!.onItemClick(pos) 
+                listener!!.onItemClick(pos)
             }
-                   fun bind(re: Review) {
+        }
+
+        fun bind(re: Review) {
             hotelnameTV.setText(re.hotelName)
+            ageTV.setText(re.age.toString())
+            disTV.setText(re.accessNeed)
             val stars = listOf(star1, star2, star3, star4, star5)
             stars.forEach { it.setImageResource(R.drawable.baseline_star_outline_24) }
             for (i in 0 until re.rate) {
@@ -59,9 +98,11 @@ class AllReviewsFragment : Fragment() {
 
     //---------------------OnItemClickListener ---------------------------
     interface OnItemClickListener {
-        fun onItemClick(pos: Int) 
+        fun onItemClick(pos: Int)
     }
-        //---------------------Recycler adapter ---------------------------
+
+
+    //---------------------Recycler adapter ---------------------------
     internal class ReviewRecyclerAdapter(
         private var inflater: LayoutInflater,
         private var _data: List<Review>?
@@ -100,4 +141,6 @@ class AllReviewsFragment : Fragment() {
         // Return the number of items in the data
         override fun getItemCount(): Int = data?.size ?: 0
     }
+
+
 }

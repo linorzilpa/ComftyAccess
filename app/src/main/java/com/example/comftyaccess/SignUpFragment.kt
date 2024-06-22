@@ -11,28 +11,17 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.NavDirections
 import androidx.navigation.fragment.findNavController
 import com.example.comftyaccess.databinding.FragmentSignUpBinding
-
+import com.example.comftyaccess.model.Model
 
 class SignUpFragment : Fragment() {
+
     private lateinit var binding: FragmentSignUpBinding
     private var action: NavDirections? = null
-    private val accessNeedsOptions = listOf(
-        "Do not want to share",
-        "Visual Impairment",
-        "Hearing Impairment",
-        "Mobility Impairment",
-        "Cognitive Impairment",
-        "Neurodiverse",
-        "Speech Impairment",
-        "Other"
-    )
+    private val accessNeedsOptions =  Model.accessNeedsOptions
+
     private var accessNeedType: String?= null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
     }
 
     override fun onCreateView(
@@ -62,8 +51,7 @@ class SignUpFragment : Fragment() {
         return binding.root
     }
 
-    companion object {
-        private fun createAccessNeedSpinner() {
+    private fun createAccessNeedSpinner() {
         val adapter = ArrayAdapter(
             requireContext(), // Use requireContext() within Fragments
             R.layout.spinner_item, // Your custom item layout
@@ -78,4 +66,6 @@ class SignUpFragment : Fragment() {
             override fun onNothingSelected(parent: AdapterView<*>) {}
         }
     }
+
+
 }
