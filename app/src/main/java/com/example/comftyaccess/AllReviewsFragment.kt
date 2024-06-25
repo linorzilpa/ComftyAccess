@@ -2,6 +2,7 @@ package com.example.comftyaccess
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,51 +16,42 @@ import com.example.comftyaccess.databinding.FragmentAllReviewsBinding
 import com.example.comftyaccess.model.Review
 
 class AllReviewsFragment : Fragment() {
+    private lateinit var binding: FragmentAllReviewsBinding
+    private lateinit var reviewRecyclerAdapter: ReviewRecyclerAdapter
+    private lateinit var viewModel: AllReviewsViewModel
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        binding = FragmentAllReviewsBinding.inflate(inflater, container, false)
+        setupRecyclerView()
+        setupViewModel()
+        return binding.root
     }
-
-    @SuppressLint("MissingInflatedId")
-    class AllReviewsFragment : Fragment() {
-        private var binding: FragmentAllReviewsBinding? = null
-        private lateinit var reviewRecyclerAdapter: ReviewRecyclerAdapter
-        private lateinit var viewModel: AllReviewsViewModel
-
-        override fun onCreateView(
-            inflater: LayoutInflater, container: ViewGroup?,
-            savedInstanceState: Bundle?
-        ): View {
-            binding = FragmentAllReviewsBinding.inflate(inflater, container, false)
-            viewModel = ViewModelProvider(this).get(AllReviewsViewModel::class.java)
-
-            reviewRecyclerAdapter = ReviewRecyclerAdapter(LayoutInflater.from(context), emptyList())
-            binding!!.allReviewsRv.layoutManager = LinearLayoutManager(context)
-            binding!!.allReviewsRv.adapter = reviewRecyclerAdapter
-
-            viewModel.data.observe(viewLifecycleOwner) { reviews ->
-                // Update your UI here with the list of reviews
+    private fun setupRecyclerView() {
+    binding.allReviewsRv.layoutManager = LinearLayoutManager(context)
+    reviewRecyclerAdapter = ReviewRecyclerAdapter(LayoutInflater.from(context), emptyList())
+    binding.allReviewsRv.adapter = reviewRecyclerAdapter
+    }
+    private fun setupViewModel() {
+    viewModel = ViewModelProvider(this)[AllReviewsViewModel::class.java]
+    viewModel.data.observe(viewLifecycleOwner) { reviews ->
+        if (reviews.isNullOrEmpty()) {
+            Log.d("AllReviewsFragment", "No reviews available")
+        } else {
                 reviewRecyclerAdapter.data = reviews
-                reviewRecyclerAdapter.notifyDataSetChanged()
+                Log.d("AllReviewsFragment", "Received ${reviews.size} reviews")
+
             }
-
-            return binding!!.root
-        }
-
-        override fun onDestroyView() {
-            super.onDestroyView()
-            binding = null // Clean up the binding when the view is destroyed
         }
     }
-
-
 
     internal class AllReviewsViewHolder(itemView: View, listener: OnItemClickListener?) :
         RecyclerView.ViewHolder(itemView) {
         var hotelnameTV: TextView
-        lateinit var ageTV: TextView
-        lateinit var disTV: TextView
+        var ageTV: TextView
+        var disTV: TextView
         var avatarImg: ImageView
         var star1: ImageView
         var star2: ImageView
@@ -69,6 +61,8 @@ class AllReviewsFragment : Fragment() {
 
         init {
             hotelnameTV = itemView.findViewById(R.id.row_hotel_name)
+            ageTV= itemView.findViewById(R.id.raw_age_TextView)
+            disTV= itemView.findViewById(R.id.row_disabillity_textView)
             star1 = itemView.findViewById(R.id.row_star1)
             star2 = itemView.findViewById(R.id.row_star2)
             star3 = itemView.findViewById(R.id.row_star3)
@@ -102,17 +96,15 @@ class AllReviewsFragment : Fragment() {
 
 
     //---------------------Recycler adapter ---------------------------
-    internal class ReviewRecyclerAdapter(
-        private var inflater: LayoutInflater,
-        private var _data: List<Review>?
-    ) : RecyclerView.Adapter<AllReviewsViewHolder>() {
-        var listener: OnItemClickListener? = null
+    internal class ReviewRecyclerAdapter(private var inflater: LayoutInflater, private var _data: List<Review>?) : RecyclerView.Adapter<AllReviewsViewHolder>() {var listener: OnItemClickListener? = null
 
         var data: List<Review>?
             get() = _data
             set(value) {
                 _data = value
                 notifyDataSetChanged()
+                Log.d("AllReviewsFragment", "num of reviews: {${_data?.size}} ")
+
             }
 
         // Set the OnItemClickListener
@@ -133,8 +125,10 @@ class AllReviewsFragment : Fragment() {
 
         // Bind the data to the view holder
         override fun onBindViewHolder(holder: AllReviewsViewHolder, position: Int) {
-            val re: Review = data!![position]
-            holder.bind(re)
+            data?.let {
+                val re: Review = it[position]
+                holder.bind(re)
+            }
         }
 
         // Return the number of items in the data
