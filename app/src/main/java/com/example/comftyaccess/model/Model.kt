@@ -24,6 +24,15 @@ class Model {
         val instance: Model = Model()
     }
 
+    interface Listener<T> {
+        fun onComplete(data: T)
+    }
+
+    interface ListenerVoid<Void> {
+        fun onComplete()
+    }
+
+
     fun getAllReviews(): LiveData<List<Review>> {
         val reviewsList = localDb.reviewDao().getAllReviews()
         Log.d("AllReviewsFragment", "Attempting to log size of LiveData which is not directly possible")
