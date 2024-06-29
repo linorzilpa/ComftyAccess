@@ -1,59 +1,118 @@
 package com.example.comftyaccess
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
+import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
+import com.example.comftyaccess.databinding.FragmentFilterBinding
+import com.example.comftyaccess.model.Model
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [FilterFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class FilterFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+    private lateinit var binding: FragmentFilterBinding
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
+    private var accessNeedType: String? = null
+    private var ageRangeType: String? = null
+    private var email: String? = null
+    private var rating: String? = null
+    private val accessNeedsOptions = listOf("Rather not to mention") + Model.accessNeedsOptions.filterNot {
+        it == "Other" || it == "Do not want to share"
+    }
+    private val ageRangeOptions = listOf("Rather not to mention") + Model.ageRangeOptions
+
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        binding = FragmentFilterBinding.inflate(inflater, container, false)
+
+        setupSpinners()
+        setupStarRating()
+        setupButton()
+
+        return binding.root
+    }
+
+    private fun setupSpinners() {
+        createAccessNeedSpinner()
+        createAgeRangeSpinner()
+    }
+
+    private fun setupStarRating() {
+        val stars = arrayOf(binding.filterStar1, binding.filterStar2, binding.filterStar3, binding.filterStar4, binding.filterStar5)
+
+        stars.forEachIndexed { index, imageView ->
+            imageView.setOnClickListener {
+                rating = (index + 1).toString()  // Update the rating based on which star was clicked
+                stars.forEachIndexed { starIndex, starImageView ->
+                    starImageView.setImageResource(
+                        if (starIndex <= index) R.drawable.baseline_star_rate_24
+                        else R.drawable.baseline_star_outline_24
+                    )
+                }
+            }
         }
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_filter, container, false)
+    private fun setupButton() {
+        binding.filterBt.setOnClickListener {
+            // Collect email from the input field
+            email = binding.emailEditText.text.toString()
+            if (binding.cbStarsFilter.isChecked) {
+                // If checked, use the rating if available; otherwise, use "Rather not to mention"
+                rating = rating ?: "Rather not to mention"
+            } else {
+                // If not checked, always use "Rather not to mention"
+                rating = "Rather not to mention"
+            }
+            // Prepare to send the data to another fragment or activity
+            val action = FilterFragmentDirections.actionFilterFragmentToFilteredReviewsFragment(
+                accessNeedType ?: "Rather not to mention",
+                rating ?: "Rather not to mention",
+                ageRangeType ?: "Rather not to mention",
+                email ?: "Rather not to mention"
+            )
+            Log.d("FilterFragment", "Access Need Type: $accessNeedType")
+            Log.d("FilterFragment", "Age Range Type: $ageRangeType")
+            Log.d("FilterFragment", "Email: $email")
+            Log.d("FilterFragment", "Rating: $rating")
+            findNavController().navigate(action)
+            rating = "Rather not to mention" // for the back button
+        }
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment FilterFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            FilterFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
+    private fun createAccessNeedSpinner() {
+
+        val adapter = ArrayAdapter(
+            requireContext(), // Use requireContext() within Fragments
+            R.layout.spinner_item, // Your custom item layout
+            accessNeedsOptions // The list of options
+        )
+        binding.accessNeedSpinnerSpinnerFilter.adapter = adapter
+
+        binding.accessNeedSpinnerSpinnerFilter.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
+                accessNeedType = parent.getItemAtPosition(position).toString()
             }
+            override fun onNothingSelected(parent: AdapterView<*>) {}
+        }
+    }
+
+    private fun createAgeRangeSpinner() {
+        val adapter = ArrayAdapter(
+            requireContext(), // Use requireContext() within Fragments
+            R.layout.spinner_item, // Your custom item layout
+            ageRangeOptions // The list of options
+        )
+        binding.ageRangeSpinnerFilter.adapter = adapter
+
+        binding.ageRangeSpinnerFilter.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
+                ageRangeType = parent.getItemAtPosition(position).toString()
+            }
+            override fun onNothingSelected(parent: AdapterView<*>) {}
+        }
     }
 }
