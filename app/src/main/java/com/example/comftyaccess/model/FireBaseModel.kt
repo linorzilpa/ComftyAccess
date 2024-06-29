@@ -61,19 +61,25 @@ class FireBaseModel {
     }
 
     fun uploadImage(name: String, bitmap: Bitmap, listener: Model.Listener<String>) {
+        Log.d("FirebaseStorage1", "upload image")
         val storageRef = storage.getReference()
         val imagesRef = storageRef.child("images/$name.jpg")
         val baos = ByteArrayOutputStream()
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos)
         val data = baos.toByteArray()
         val uploadTask = imagesRef.putBytes(data)
+        Log.d("FirebaseStorage1", "before uploading...")
         uploadTask.addOnFailureListener { exception ->
+            Log.d("FirebaseStorage1", "upload image failed")
             Log.e("FirebaseStorage", "Getting download URL failed", exception)
             listener.onComplete(null)
         }.addOnSuccessListener {
+            Log.d("FirebaseStorage1", "upload image success")
             imagesRef.getDownloadUrl()
                 .addOnSuccessListener { uri -> listener.onComplete(uri.toString()) }
         }
+        Log.d("FirebaseStorage1", "end of func")
+
     }
 
 
