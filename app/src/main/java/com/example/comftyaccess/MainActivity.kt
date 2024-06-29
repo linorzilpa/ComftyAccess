@@ -46,6 +46,7 @@ class MainActivity : AppCompatActivity() {
         setupActionBarWithNavController(navController)
 
         val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottom_navigation)
+        bottomNavigationView.selectedItemId = R.id.nav_home
         bottomNavigationView.setOnItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.nav_profile -> {
