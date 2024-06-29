@@ -49,7 +49,7 @@ class AllReviewsFragment : Fragment() {
         binding.allReviewsRv.layoutManager = LinearLayoutManager(context)
         reviewRecyclerAdapter = ReviewRecyclerAdapter(LayoutInflater.from(context), emptyList())
         binding.allReviewsRv.adapter = reviewRecyclerAdapter
-        reviewRecyclerAdapter.setOnItemClickListener(object : AllReviewsFragment.OnItemClickListener {
+        reviewRecyclerAdapter.setOnItemClickListener(object : OnItemClickListener {
             override fun onItemClick(pos: Int) {
                 val selectedReview = viewModel.data.value?.get(pos)
                 if (selectedReview != null) {

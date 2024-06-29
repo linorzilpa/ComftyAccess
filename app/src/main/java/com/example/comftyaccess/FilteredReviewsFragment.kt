@@ -6,16 +6,21 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.comftyaccess.databinding.FragmentAllReviewsBinding
 import com.example.comftyaccess.databinding.FragmentFilteredReviewsBinding
 import com.example.comftyaccess.model.Model
 import com.example.comftyaccess.model.Review
+import com.squareup.picasso.Picasso
 
 class FilteredReviewsFragment: Fragment() {
     private lateinit var binding: FragmentFilteredReviewsBinding
@@ -53,8 +58,77 @@ class FilteredReviewsFragment: Fragment() {
         binding.filteredReviewsRv.layoutManager = LinearLayoutManager(context)
         reviewRecyclerAdapter = ReviewRecyclerAdapter(LayoutInflater.from(context), emptyList())
         binding.filteredReviewsRv.adapter = reviewRecyclerAdapter
+        reviewRecyclerAdapter.setOnItemClickListener(object : OnItemClickListener {
+            override fun onItemClick(pos: Int) {
+                val selectedReview = viewModel.filterReviews(viewModel.data.value, accessNeedType!!,
+                    ageRangeType!!, email!!, rating!!).get(pos)
+                if (selectedReview != null) {
+                    showDialogWithReviewDetails(selectedReview, pos)
+                } else {
+                    // Handle the case where selectedReview is null
+                    context?.let { ctx ->
+                        Toast.makeText(ctx, "Error: Review not found!", Toast.LENGTH_SHORT).show()
+                    }
+                }
+            }
+        })
     }
 
+    fun showDialogWithReviewDetails(review: Review, pos: Int) {
+        val dialogView = layoutInflater.inflate(R.layout.dialog_review_details, null)
+
+        // Binding TextViews with review details
+        dialogView.findViewById<TextView>(R.id.tv_edit_hotelname_review_details).text = review.hotelName
+        dialogView.findViewById<TextView>(R.id.tv_edit_accessNeed_review_details).text = review.accessNeed
+        dialogView.findViewById<TextView>(R.id.tv_edit_desc_review_details).text = review.description ?: "No additional comments"
+        dialogView.findViewById<TextView>(R.id.tv_edit_email_review_details).text = review.email
+        dialogView.findViewById<TextView>(R.id.tv_edit_age_review_details).text = review.age.toString()
+
+        // Handling the rating stars
+        val starViews = listOf(
+            dialogView.findViewById<ImageView>(R.id.row_star1_review_details),
+            dialogView.findViewById<ImageView>(R.id.row_star2_review_details),
+            dialogView.findViewById<ImageView>(R.id.row_star3_review_details),
+            dialogView.findViewById<ImageView>(R.id.row_star4_review_details),
+            dialogView.findViewById<ImageView>(R.id.row_star5_review_details)
+        )
+
+        starViews.forEachIndexed { index, imageView ->
+            if (index < review.rate) {
+                imageView.setImageResource(R.drawable.baseline_star_rate_24)
+            } else {
+                imageView.setImageResource(R.drawable.baseline_star_outline_24)
+            }
+        }
+
+        val alertDialog = AlertDialog.Builder(requireContext())
+            .setView(dialogView)
+            .create()
+
+        dialogView.findViewById<Button>(R.id.bt_back_review_details).setOnClickListener {
+            alertDialog.dismiss() // Dismiss the dialog when the back button is pressed
+        }
+
+        val editImageView = dialogView.findViewById<ImageView>(R.id.iv_editreview_review_details)
+        editImageView.visibility = View.GONE
+
+
+        val avatarImg = dialogView.findViewById<ImageView>(R.id.iv_review_details) // Replace 'R.id.avatarImg' with the actual ID
+
+        review.img?.let { imageUrl ->
+            if (imageUrl.isNotBlank()) {
+                Picasso.get().load(imageUrl)
+                    .placeholder(R.drawable.ic_launcher_foreground)  // Placeholder image
+                    .error(R.drawable.ic_launcher_foreground)         // Error image
+                    .into(avatarImg)
+            } else {
+                avatarImg.setImageResource(R.drawable.ic_launcher_foreground)
+            }
+        } ?: avatarImg.setImageResource(R.drawable.ic_launcher_foreground)
+
+        // Create and show the AlertDialog
+        alertDialog.show()
+    }
     private fun setupViewModel() {
         viewModel = ViewModelProvider(this)[FilteredReviewsViewModel::class.java]
 
