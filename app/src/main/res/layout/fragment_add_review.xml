@@ -169,13 +169,14 @@
 
             <ImageView
                 android:id="@+id/iv_addReview"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
                 android:layout_marginTop="20dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView4"
                 app:srcCompat="@drawable/ic_launcher_foreground"
                 tools:ignore="MissingConstraints"
-                tools:layout_editor_absoluteX="70dp"
                 tools:src="@tools:sample/avatars" />
 
             <Button
@@ -195,7 +196,8 @@
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="20dp"
                 android:layout_marginEnd="200dp"
-                android:background="@color/pink"
+                android:background="@color/lightPink"
+                android:textSize="20sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/row_star3_addReview" />
