@@ -190,7 +190,7 @@
 
             <TextView
                 android:id="@+id/email_tv_addReview"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="30dp"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="20dp"

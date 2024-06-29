@@ -3,6 +3,7 @@ package com.example.comftyaccess
 import android.app.Activity
 import android.app.Application
 import android.content.Intent
+import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -10,6 +11,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.Toast
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -24,9 +27,9 @@ class AddReviewFragment : Fragment() {
     private lateinit var binding: FragmentAddReviewBinding
     private val auth: FirebaseAuth by lazy { FirebaseAuth.getInstance() }
     private var email= ""
-    private var age:Int = 0
-    private lateinit var accessNeed:String
-
+    private lateinit var cameraLauncher: ActivityResultLauncher<Void?>
+    private lateinit var galleryLauncher: ActivityResultLauncher<String>
+    private var isAvatarSelected = false
 
 
     override fun onCreateView(
@@ -41,6 +44,7 @@ class AddReviewFragment : Fragment() {
         }
         else{
             //if the user is logged in\
+            setupActivityResultLaunchers()
             setupStarRating()
             email = auth.getCurrentUser()?.getEmail().toString()
             binding.emailTvAddReview.setText(email)
@@ -89,20 +93,32 @@ class AddReviewFragment : Fragment() {
                 // Ensure all properties are set before creating Review
                 val accessNeed = user.accessNeed ?: "Default Access Need"
                 val age = user.age
-
                 val newReview = Review(
-                    hotelName = hotelName,
-                    email = email,
-                    rate = rate,
-                    age = age,
-                    accessNeed = accessNeed,
-                    img = "url_to_image",
-                    description = description
-                )
-                newReview.generateID()
-                Model.instance.addReview(newReview) {
-                    Toast.makeText(requireContext(), "Review added!", Toast.LENGTH_LONG).show()
-                    Log.d("AddReviewFragment", "Review inserted")
+                        hotelName = hotelName,
+                        email = email,
+                        rate = rate,
+                        age = age,
+                        accessNeed = accessNeed,
+                        img = "",
+                        description = description
+                    )
+                    newReview.generateID()
+                if (isAvatarSelected) {
+                    (binding.ivAddReview.drawable as? BitmapDrawable)?.let { drawable ->
+                        val bitmap = drawable.bitmap
+                        Model.instance.uploadImage(newReview.reviewId.toString(), bitmap) { url ->
+                            newReview.img=url!!
+                            Model.instance.addReview(newReview) {
+                                Toast.makeText(requireContext(), "Review added!", Toast.LENGTH_LONG).show()
+                                Log.d("AddReviewFragment", "Review inserted with img")
+                            }
+                        }
+                    } ?: Log.e("SignUpFragment", "Failed to cast drawable to BitmapDrawable")
+                } else{
+                    Model.instance.addReview(newReview) {
+                        Toast.makeText(requireContext(), "Review added!", Toast.LENGTH_LONG).show()
+                        Log.d("AddReviewFragment", "Review inserted without img")
+                    }
                 }
             } else {
                 Log.d("AddReviewFragment", "No user found with email: $email")
@@ -154,6 +170,30 @@ class AddReviewFragment : Fragment() {
             } else {
                 imageView.setImageResource(R.drawable.baseline_star_outline_24)  // Outline star drawable
             }
+        }
+    }
+
+    private fun setupActivityResultLaunchers() {
+        cameraLauncher = registerForActivityResult(ActivityResultContracts.TakePicturePreview()) { bitmap ->
+            bitmap?.let {
+                binding.ivAddReview.setImageBitmap(it)
+                isAvatarSelected = true
+            }
+        }
+
+        galleryLauncher = registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
+            uri?.let {
+                binding.ivAddReview.setImageURI(it)
+                isAvatarSelected = true
+            }
+        }
+
+        binding.btnCameraAddReview.setOnClickListener {
+            cameraLauncher.launch(null)
+        }
+
+        binding.btnGalleryAddReview.setOnClickListener {
+            galleryLauncher.launch("image/*")
         }
     }
 
