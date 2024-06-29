@@ -6,47 +6,178 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.example.comftyaccess.databinding.FragmentAllReviewsBinding
+import com.example.comftyaccess.databinding.FragmentFilteredReviewsBinding
+import com.example.comftyaccess.model.Model
+import com.example.comftyaccess.model.Review
 
-class FilteredReviewsFragment : Fragment() {
+class FilteredReviewsFragment: Fragment() {
+    private lateinit var binding: FragmentFilteredReviewsBinding
+    private lateinit var reviewRecyclerAdapter: ReviewRecyclerAdapter
+    private lateinit var viewModel: FilteredReviewsViewModel
     // Initialize fields for received arguments
     private var accessNeedType: String? = null
     private var ageRangeType: String? = null
     private var email: String? = null
     private var rating: String? = null
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
         arguments?.let {
             accessNeedType = it.getString("accessNeedType")
             ageRangeType = it.getString("ageRangeType")
             email = it.getString("email")
-            if(email.equals(""))
-                email= "Rather not to mention"
+            if (email.equals(""))
+                email = "Rather not to mention"
             rating = it.getString("rating")
+        }
+        binding = FragmentFilteredReviewsBinding.inflate(inflater, container, false)
+        reloadData()
+        setupRecyclerView()
+        setupViewModel()
+        Model.instance.reviewsListLoadingState.observe(getViewLifecycleOwner()) { status ->
+            binding.filteredReviewsSwipeRefresh.isRefreshing = status === Model.LoadingState.LOADING
+        }
+        binding.filteredReviewsSwipeRefresh.setOnRefreshListener { reloadData() }
+        return binding.root
+    }
+
+    private fun setupRecyclerView() {
+        binding.filteredReviewsRv.layoutManager = LinearLayoutManager(context)
+        reviewRecyclerAdapter = ReviewRecyclerAdapter(LayoutInflater.from(context), emptyList())
+        binding.filteredReviewsRv.adapter = reviewRecyclerAdapter
+    }
+
+    private fun setupViewModel() {
+        viewModel = ViewModelProvider(this)[FilteredReviewsViewModel::class.java]
+
+        viewModel.data.observe(viewLifecycleOwner) { reviews ->
+            Log.d("FilteredReviewsFragment", "Total reviews fetched: ${reviews.size}")
+            val filteredReviews = viewModel.filterReviews(reviews, accessNeedType!!,
+                ageRangeType!!, email!!, rating!!)
+            reviewRecyclerAdapter.data = filteredReviews
+            if (filteredReviews.isNullOrEmpty()) {
+                Log.d("FilteredReviewsFragment", "No reviews available after filtering")
+            } else {
+                Log.d("FilteredReviewsFragment", "Received ${filteredReviews.size} reviews after filtering")
+            }
         }
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        Log.d("FilteredReviewsFragment", "Access Need Type: $accessNeedType")
-        Log.d("FilteredReviewsFragment", "Age Range Type: $ageRangeType")
-        Log.d("FilteredReviewsFragment", "Email: $email")
-        Log.d("FilteredReviewsFragment", "Rating: $rating")
-        return inflater.inflate(R.layout.fragment_filtered_reviews, container, false)
+
+    override fun onStart() {
+        super.onStart()
+        (activity as AppCompatActivity?)!!.supportActionBar!!.title = "Filter Reviews"
+        if (viewModel.filterReviews(viewModel.data.value,accessNeedType!!,
+                ageRangeType!!, email!!, rating!!
+            )
+                .isNullOrEmpty()) {
+            Model.instance.refreshAllReviews()
+        }
     }
 
-    companion object {
-        @JvmStatic
-        fun newInstance(accessNeedType: String, ageRangeType: String, email: String, rating: String) =
-            FilteredReviewsFragment().apply {
-                arguments = Bundle().apply {
-                    putString("accessNeedType", accessNeedType)
-                    putString("ageRangeType", ageRangeType)
-                    putString("email", email)
-                    putString("rating", rating)
-                }
-            }
+
+
+    fun reloadData() {
+        Model.instance.refreshAllReviews()
     }
+
+    internal class FilteredReviewsViewHolder(itemView: View, listener: OnItemClickListener?) :
+        RecyclerView.ViewHolder(itemView) {
+        var hotelnameTV: TextView
+        var ageTV: TextView
+        var disTV: TextView
+        var avatarImg: ImageView
+        var star1: ImageView
+        var star2: ImageView
+        var star3: ImageView
+        var star4: ImageView
+        var star5: ImageView
+
+        init {
+            hotelnameTV = itemView.findViewById(R.id.row_hotel_name)
+            ageTV= itemView.findViewById(R.id.row_age_TextView)
+            disTV= itemView.findViewById(R.id.row_disabillity_textView)
+            star1 = itemView.findViewById(R.id.row_star1)
+            star2 = itemView.findViewById(R.id.row_star2)
+            star3 = itemView.findViewById(R.id.row_star3)
+            star4 = itemView.findViewById(R.id.row_star4)
+            star5 = itemView.findViewById(R.id.row_star5)
+            avatarImg = itemView.findViewById(R.id.row_iv)
+            itemView.setOnClickListener {
+                val pos = getAdapterPosition()
+                listener!!.onItemClick(pos)
+            }
+        }
+
+        fun bind(re: Review) {
+            hotelnameTV.setText(re.hotelName)
+            ageTV.setText(re.age.toString())
+            disTV.setText(re.accessNeed)
+            val stars = listOf(star1, star2, star3, star4, star5)
+            stars.forEach { it.setImageResource(R.drawable.baseline_star_outline_24) }
+            for (i in 0 until re.rate) {
+                stars[i].setImageResource(R.drawable.baseline_star_rate_24)
+            }
+            //add image binding
+        }
+    }
+
+
+    //---------------------OnItemClickListener ---------------------------
+    interface OnItemClickListener {
+        fun onItemClick(pos: Int)
+    }
+
+
+    //---------------------Recycler adapter ---------------------------
+    internal class ReviewRecyclerAdapter(private var inflater: LayoutInflater, private var _data: List<Review>?) : RecyclerView.Adapter<FilteredReviewsViewHolder>() {
+        var listener: OnItemClickListener? = null
+
+        var data: List<Review>?
+            get() = _data
+            set(value) {
+                _data = value
+                notifyDataSetChanged()
+                Log.d("FilteredReviewsFragment", "num of reviews: {${_data?.size}} ")
+
+            }
+
+        // Set the OnItemClickListener
+        fun setOnItemClickListener(listener: OnItemClickListener?) {
+            this.listener = listener
+        }
+
+        // Create a view holder
+        override fun onCreateViewHolder(
+            parent: ViewGroup,
+            viewType: Int
+        ): FilteredReviewsViewHolder {
+            // Inflate the row layout using parent context
+            val view = inflater.inflate(R.layout.review_row, parent, false)
+            // Create and return a new FilteredReviewsViewHolder
+            return FilteredReviewsViewHolder(view, listener)
+        }
+
+        // Bind the data to the view holder
+        override fun onBindViewHolder(holder: FilteredReviewsViewHolder, position: Int) {
+            data?.let {
+                val re: Review = it[position]
+                holder.bind(re)
+            }
+        }
+
+
+        // Return the number of items in the data
+        override fun getItemCount(): Int = data?.size ?: 0
+    }
+
+
 }

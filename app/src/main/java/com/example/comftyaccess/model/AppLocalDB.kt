@@ -20,7 +20,7 @@ object AppLocalDB {
         Room.databaseBuilder(
             context,
             AppLocalDBRepository::class.java,
-            "comftyAccessdb10.db"
+            "comftyAccessdb11.db"
         ).fallbackToDestructiveMigration().build()
     }
 }
