@@ -1,6 +1,7 @@
 package com.example.comftyaccess.model
 
 import android.graphics.Bitmap
+import android.util.Log
 import com.google.firebase.Timestamp
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.FirebaseFirestoreSettings
@@ -13,6 +14,7 @@ class FireBaseModel {
             .setPersistenceEnabled(false)
             .build()
     }
+
     private val storage = FirebaseStorage.getInstance()
 
     fun getAllReviewsSince(since: Long, callback: Model.Listener<List<Review>>) {
@@ -65,11 +67,15 @@ class FireBaseModel {
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos)
         val data = baos.toByteArray()
         val uploadTask = imagesRef.putBytes(data)
-        uploadTask.addOnFailureListener { listener.onComplete(null) }.addOnSuccessListener {
+        uploadTask.addOnFailureListener { exception ->
+            Log.e("FirebaseStorage", "Getting download URL failed", exception)
+            listener.onComplete(null)
+        }.addOnSuccessListener {
             imagesRef.getDownloadUrl()
                 .addOnSuccessListener { uri -> listener.onComplete(uri.toString()) }
         }
     }
+
 
 
 }
