@@ -5,61 +5,54 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import androidx.navigation.NavDirections
 import androidx.navigation.fragment.findNavController
 import com.example.comftyaccess.databinding.FragmentSignInBinding
+import com.google.firebase.auth.FirebaseAuth
 
-
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [SignInFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class SignInFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
     private lateinit var binding: FragmentSignInBinding
-    private var action: NavDirections? = null
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
+    private val auth: FirebaseAuth by lazy { FirebaseAuth.getInstance() }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-           binding = FragmentSignInBinding.inflate(layoutInflater)
+        binding = FragmentSignInBinding.inflate(inflater, container, false)
 
-        // Set the click listener for the sign-up button
-        binding.signUpHereBtn.setOnClickListener { view ->
+        binding.signUpHereBtn.setOnClickListener {
             val action = SignInFragmentDirections.actionSignInFragmentToSignUpFragment()
             findNavController().navigate(action)
         }
-        
-        binding.signInBtn.setOnClickListener { view2 ->
 
-            val i = Intent(activity, MainActivity::class.java)
-            val email:String = binding.emailEditText.toString()
-            val pass:String = binding.passEditText.toString()
-
-            startActivity(i)
+        binding.signInBtn.setOnClickListener {
+            val email = binding.emailEditText.text.toString().trim()  // Trim to remove any leading/trailing spaces
+            val password = binding.passEditText.text.toString().trim()
+            if (email.isEmpty() || password.isEmpty()) {
+                Toast.makeText(context, "Please enter both email and password", Toast.LENGTH_SHORT).show()
+            } else {
+                signInUser(email, password)
+            }
         }
 
         return binding.root
-        override fun onStart() {
-        super.onStart()
-        (activity as AppCompatActivity?)!!.supportActionBar!!.title = "Sign in"
     }
-     override fun onStart() {
+
+    private fun signInUser(email: String, password: String) {
+        auth.signInWithEmailAndPassword(email, password).addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                val i = Intent(activity, MainActivity::class.java)
+                startActivity(i)
+                activity?.finish()
+            } else {
+                Toast.makeText(context, "Authentication failed: ${task.exception?.message}", Toast.LENGTH_LONG).show()
+            }
+        }
+    }
+
+    override fun onStart() {
         super.onStart()
         (activity as AppCompatActivity?)!!.supportActionBar!!.title = "Sign in"
     }

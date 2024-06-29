@@ -1,5 +1,6 @@
 package com.example.comftyaccess.model
 
+import android.annotation.SuppressLint
 import android.graphics.Bitmap
 import android.util.Log
 import androidx.lifecycle.LiveData
@@ -74,6 +75,7 @@ class Model {
         return reviewsList!!
     }
 
+    @SuppressLint("SuspiciousIndentation")
     fun refreshAllReviews() {
         reviewsListLoadingState.postValue(LoadingState.LOADING)
         val localLastUpdate = Review.getLocalLastUpdate()
