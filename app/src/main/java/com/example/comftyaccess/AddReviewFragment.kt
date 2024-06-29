@@ -1,5 +1,6 @@
 package com.example.comftyaccess
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.Application
 import android.content.Intent
@@ -62,7 +63,6 @@ class AddReviewFragment : Fragment() {
             }
         }
 
-
         return binding.root
     }
 
@@ -86,6 +86,7 @@ class AddReviewFragment : Fragment() {
         }
     }
 
+    @SuppressLint("SuspiciousIndentation")
     private fun addReview(description: String, hotelName: String, rate: Int) {
         Model.instance.getAllUsers { users ->
             val user = users?.let { Model.instance.getUserByEmail(it, email) }
@@ -108,21 +109,26 @@ class AddReviewFragment : Fragment() {
                         val bitmap = drawable.bitmap
                         Model.instance.uploadImage(newReview.reviewId.toString(), bitmap) { url ->
                             newReview.img=url!!
+                            Log.d("AddReviewFragment", "Review img url ${newReview.img.toString()}")
+
                             Model.instance.addReview(newReview) {
                                 Toast.makeText(requireContext(), "Review added!", Toast.LENGTH_LONG).show()
                                 Log.d("AddReviewFragment", "Review inserted with img")
+                                findNavController().navigateUp()  // Navigate up in the navigation stack
                             }
                         }
-                    } ?: Log.e("SignUpFragment", "Failed to cast drawable to BitmapDrawable")
+                    } ?: Log.e("AddReviewFragment", "Failed to cast drawable to BitmapDrawable")
                 } else{
                     Model.instance.addReview(newReview) {
                         Toast.makeText(requireContext(), "Review added!", Toast.LENGTH_LONG).show()
                         Log.d("AddReviewFragment", "Review inserted without img")
+                        findNavController().navigateUp()  // Navigate up in the navigation stack
                     }
                 }
             } else {
                 Log.d("AddReviewFragment", "No user found with email: $email")
                 Toast.makeText(requireContext(), "Failed to add review: User not found", Toast.LENGTH_LONG).show()
+                findNavController().navigateUp()  // Navigate up in the navigation stack
             }
         }
     }
