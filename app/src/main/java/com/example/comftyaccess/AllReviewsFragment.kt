@@ -35,35 +35,38 @@ class AllReviewsFragment : Fragment() {
         binding.swipeRefresh.setOnRefreshListener { reloadData() }
         return binding.root
     }
-    private fun setupRecyclerView() {
-    binding.allReviewsRv.layoutManager = LinearLayoutManager(context)
-    reviewRecyclerAdapter = ReviewRecyclerAdapter(LayoutInflater.from(context), emptyList())
-    binding.allReviewsRv.adapter = reviewRecyclerAdapter
-    }
-    private fun setupViewModel() {
-    viewModel = ViewModelProvider(this)[AllReviewsViewModel::class.java]
-    viewModel.data.observe(viewLifecycleOwner) { reviews ->
-        reloadData()
-        if (reviews.isNullOrEmpty()) {
-            Log.d("AllReviewsFragment", "No reviews available")
-        } else {
-                reviewRecyclerAdapter.data = reviews
-                Log.d("AllReviewsFragment", "Received ${reviews.size} reviews")
 
+    private fun setupRecyclerView() {
+        binding.allReviewsRv.layoutManager = LinearLayoutManager(context)
+        reviewRecyclerAdapter = ReviewRecyclerAdapter(LayoutInflater.from(context), emptyList())
+        binding.allReviewsRv.adapter = reviewRecyclerAdapter
+    }
+
+    private fun setupViewModel() {
+        viewModel = ViewModelProvider(this)[AllReviewsViewModel::class.java]
+        viewModel.data.observe(viewLifecycleOwner) { reviews ->
+            reviewRecyclerAdapter.data = reviews
+            if (reviews.isNullOrEmpty()) {
+                Log.d("AllReviewsFragment", "No reviews available")
+            } else {
+                Log.d("AllReviewsFragment", "Received ${reviews.size} reviews")
             }
         }
-    }
-
-    fun reloadData() {
-        Model.instance.refreshAllReviews()
     }
 
     override fun onStart() {
         super.onStart()
         (activity as AppCompatActivity?)!!.supportActionBar!!.title = "All Reviews"
-        reloadData()
+        if (viewModel.data.value.isNullOrEmpty()) {
+            Model.instance.refreshAllReviews()
+        }
     }
 
+
+
+    fun reloadData() {
+        Model.instance.refreshAllReviews()
+    }
 
     internal class AllReviewsViewHolder(itemView: View, listener: OnItemClickListener?) :
         RecyclerView.ViewHolder(itemView) {
@@ -79,7 +82,7 @@ class AllReviewsFragment : Fragment() {
 
         init {
             hotelnameTV = itemView.findViewById(R.id.row_hotel_name)
-            ageTV= itemView.findViewById(R.id.raw_age_TextView)
+            ageTV= itemView.findViewById(R.id.row_age_TextView)
             disTV= itemView.findViewById(R.id.row_disabillity_textView)
             star1 = itemView.findViewById(R.id.row_star1)
             star2 = itemView.findViewById(R.id.row_star2)
@@ -114,7 +117,8 @@ class AllReviewsFragment : Fragment() {
 
 
     //---------------------Recycler adapter ---------------------------
-    internal class ReviewRecyclerAdapter(private var inflater: LayoutInflater, private var _data: List<Review>?) : RecyclerView.Adapter<AllReviewsViewHolder>() {var listener: OnItemClickListener? = null
+    internal class ReviewRecyclerAdapter(private var inflater: LayoutInflater, private var _data: List<Review>?) : RecyclerView.Adapter<AllReviewsViewHolder>() {
+        var listener: OnItemClickListener? = null
 
         var data: List<Review>?
             get() = _data
@@ -148,6 +152,7 @@ class AllReviewsFragment : Fragment() {
                 holder.bind(re)
             }
         }
+
 
         // Return the number of items in the data
         override fun getItemCount(): Int = data?.size ?: 0

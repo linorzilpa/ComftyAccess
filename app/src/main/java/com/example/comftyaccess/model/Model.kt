@@ -10,7 +10,6 @@ import kotlinx.coroutines.launch
 
 class Model {
 
-    private var reviewsList: LiveData<List<Review>>? = null
     private val localDb: AppLocalDBRepository = AppLocalDB.appLocalDBRepository
     private val firebaseModel: FireBaseModel = FireBaseModel()
     private var reviewsList: LiveData<List<Review>>? = null
@@ -34,8 +33,9 @@ class Model {
 
     fun interface Listener<T> {
         fun onComplete(data: T?)
+    }
 
-   fun interface ListenerVoid {
+    fun interface ListenerVoid {
         fun onComplete()
     }
 
@@ -66,42 +66,39 @@ class Model {
         return users.firstOrNull { it.email == email }
     }
 
-
     fun getAllReviews(): LiveData<List<Review>> {
-        f (reviewsList == null) {
+        if (reviewsList == null) {
             reviewsList = localDb.reviewDao().getAllReviews()
             refreshAllReviews()
         }
         return reviewsList!!
     }
 
-    public fun refreshAllReviews() {
+    fun refreshAllReviews() {
         reviewsListLoadingState.postValue(LoadingState.LOADING)
         val localLastUpdate = Review.getLocalLastUpdate()
-        CoroutineScope(Dispatchers.IO).launch {
             firebaseModel.getAllReviewsSince(localLastUpdate) { list ->
                 CoroutineScope(Dispatchers.IO).launch {
-                    if (list != null) {
-                        Log.d("Model", "Firebase returned: ${list.size}")
-                    }
-                    var time = localLastUpdate
+                        if (list != null) {
+                            Log.d("Model", "Firebase returned: ${list.size}")
+                        }
+                        var time = localLastUpdate
                     if (list != null) {
                         list.forEach { review ->
-
                             localDb.reviewDao().insertAll(review)
                             if (time < review.lastUpdated!!) {
                                 time = review.lastUpdated!!
                             }
-
-
                         }
                     }
                     Review.setLocalLastUpdate(time)
                     reviewsListLoadingState.postValue(LoadingState.NOT_LOADING)
                 }
             }
-        }
+
     }
+
+
 
     fun addReview(review: Review, listener: ListenerVoid) {
             firebaseModel.addReview(review) {
