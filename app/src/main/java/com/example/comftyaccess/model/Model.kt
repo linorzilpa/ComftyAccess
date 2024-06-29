@@ -28,6 +28,14 @@ class Model {
             "Other"
         )
 
+        val ageRangeOptions = listOf(
+            "18-30",
+            "30-40",
+            "40-50",
+            "50-60",
+            "60+"
+        )
+
         // Singleton instance of Model
         val instance: Model by lazy { Model() }
     }

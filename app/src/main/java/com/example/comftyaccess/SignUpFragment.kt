@@ -21,10 +21,8 @@ import com.google.firebase.firestore.FirebaseFirestore
 class SignUpFragment : Fragment() {
 
     private lateinit var binding: FragmentSignUpBinding
-    private var action: NavDirections? = null
     private val accessNeedsOptions =  Model.accessNeedsOptions
     private val firebaseAuth: FirebaseAuth by lazy { FirebaseAuth.getInstance() }
-    private val firestore: FirebaseFirestore by lazy { FirebaseFirestore.getInstance() }
 
 
     private var accessNeedType: String?= null
