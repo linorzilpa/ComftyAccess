@@ -31,7 +31,7 @@ class FireBaseModel {
             }
     }
 
-    fun addReview(review: Review, listener: Model.ListenerVoid<Void>) {
+    fun addReview(review: Review, listener: Model.ListenerVoid) {
         db.collection(Review.COLLECTION).document(review.reviewId.toString()).set(review.toJson())
             .addOnCompleteListener {
                 listener.onComplete()
@@ -51,14 +51,14 @@ class FireBaseModel {
         }
     }
 
-    fun addUser(user: User, listener: Model.ListenerVoid<Void>) {
+    fun addUser(user: User, listener: Model.ListenerVoid) {
         db.collection(User.COLLECTION).document(user.email).set(user.toJson())
             .addOnCompleteListener {
                 listener.onComplete()
             }
     }
 
-    fun uploadImage(name: String, bitmap: Bitmap, listener: Model.Listener<String?>) {
+    fun uploadImage(name: String, bitmap: Bitmap, listener: Model.Listener<String>) {
         val storageRef = storage.getReference()
         val imagesRef = storageRef.child("images/$name.jpg")
         val baos = ByteArrayOutputStream()

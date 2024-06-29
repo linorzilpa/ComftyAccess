@@ -5,9 +5,10 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
-import com.example.comftyaccess.model.AppLocalDB
+import com.example.comftyaccess.model.Model
 import com.example.comftyaccess.model.Review
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -39,11 +40,17 @@ class AddReviewFragment : Fragment() {
             description = "This is a test review."
         )
 
-        lifecycleScope.launch(Dispatchers.IO) {  // Ensuring execution on background thread
-            AppLocalDB.appLocalDBRepository.reviewDao().insertAll(newReview)
-            Log.d("AddReviewFragment", "Review inserted")
+         Model.instance.addReview(newReview) {
+             Toast.makeText(
+                        context, // Make sure to use requireContext() to avoid context-related issues
+                        "Review added!",
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
+             Log.d("AddReviewFragment", "Review inserted")
+
         }
-    }
+
 
 
 

@@ -7,11 +7,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.comftyaccess.databinding.FragmentAllReviewsBinding
+import com.example.comftyaccess.model.Model
 import com.example.comftyaccess.model.Review
 
 class AllReviewsFragment : Fragment() {
@@ -24,8 +26,13 @@ class AllReviewsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentAllReviewsBinding.inflate(inflater, container, false)
+        reloadData()
         setupRecyclerView()
         setupViewModel()
+        Model.instance.reviewsListLoadingState.observe(getViewLifecycleOwner()) { status ->
+            binding.swipeRefresh.isRefreshing = status === Model.LoadingState.LOADING
+        }
+        binding.swipeRefresh.setOnRefreshListener { reloadData() }
         return binding.root
     }
     private fun setupRecyclerView() {
@@ -36,6 +43,7 @@ class AllReviewsFragment : Fragment() {
     private fun setupViewModel() {
     viewModel = ViewModelProvider(this)[AllReviewsViewModel::class.java]
     viewModel.data.observe(viewLifecycleOwner) { reviews ->
+        reloadData()
         if (reviews.isNullOrEmpty()) {
             Log.d("AllReviewsFragment", "No reviews available")
         } else {
@@ -45,6 +53,17 @@ class AllReviewsFragment : Fragment() {
             }
         }
     }
+
+    fun reloadData() {
+        Model.instance.refreshAllReviews()
+    }
+
+    override fun onStart() {
+        super.onStart()
+        (activity as AppCompatActivity?)!!.supportActionBar!!.title = "All Reviews"
+        reloadData()
+    }
+
 
     internal class AllReviewsViewHolder(itemView: View, listener: OnItemClickListener?) :
         RecyclerView.ViewHolder(itemView) {

@@ -3,6 +3,7 @@ package com.example.comftyaccess.model
 import android.content.Context
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.example.comftyaccess.MyApplication
 import com.google.firebase.Timestamp
 import com.google.firebase.firestore.FieldValue
 import java.util.*
@@ -54,6 +55,18 @@ data class Review(
             val lastUpdated = (json[LAST_UPDATED] as Timestamp?)?.seconds
             return Review(reviewId, hotelName, email, rate, age, accessNeed, img, description, lastUpdated)
         }
+        fun getLocalLastUpdate(): Long {
+            val sharedPref = MyApplication.getMyContext().getSharedPreferences("TAG", Context.MODE_PRIVATE)
+            return sharedPref.getLong(LOCAL_LAST_UPDATED, 0)
+        }
+
+        fun setLocalLastUpdate( time: Long) {
+            val sharedPref = MyApplication.getMyContext().getSharedPreferences("TAG", Context.MODE_PRIVATE)
+            with(sharedPref.edit()) {
+                putLong(LOCAL_LAST_UPDATED, time)
+                commit()
+            }
+        }
     }
         fun toJson(): Map<String, Any> = hashMapOf(
             REVIEW_ID to reviewId,
@@ -67,18 +80,5 @@ data class Review(
             LAST_UPDATED to FieldValue.serverTimestamp()
         )
 
-
-        fun getLocalLastUpdate(context: Context): Long {
-            val sharedPref = context.getSharedPreferences("TAG", Context.MODE_PRIVATE)
-            return sharedPref.getLong(LOCAL_LAST_UPDATED, 0)
-        }
-
-        fun setLocalLastUpdate(context: Context, time: Long) {
-            val sharedPref = context.getSharedPreferences("TAG", Context.MODE_PRIVATE)
-            with(sharedPref.edit()) {
-                putLong(LOCAL_LAST_UPDATED, time)
-                commit()
-            }
-        }
 
 }
