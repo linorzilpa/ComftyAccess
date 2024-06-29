@@ -109,7 +109,7 @@ class SignUpFragment : Fragment() {
                         val bitmap = drawable.bitmap
                         Model.instance.uploadImage(email, bitmap) { url ->
                             Log.d("SignUpFragment", "URL: ${url ?: "not available"}")
-                            val newUser = User(email, fullName, age, accessNeed, url ?: imageUrl)
+                            val newUser = User(fullName, email, age, accessNeed, url ?: imageUrl)
                             Model.instance.addUser(newUser) {
                                 Log.d("SignUpFragment", "User with image added")
                                 startActivity(Intent(activity, MainActivity::class.java))
@@ -118,7 +118,7 @@ class SignUpFragment : Fragment() {
                         }
                     } ?: Log.e("SignUpFragment", "Failed to cast drawable to BitmapDrawable")
                 } else {
-                    val newUser = User(email, fullName, age, accessNeed, imageUrl)
+                    val newUser = User(fullName, email, age, accessNeed, imageUrl)
                     Model.instance.addUser(newUser) {
                         Log.d("SignUpFragment", "User without image added")
                         startActivity(Intent(activity, MainActivity::class.java))
