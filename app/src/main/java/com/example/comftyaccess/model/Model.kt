@@ -98,6 +98,21 @@ class Model {
 
     }
 
+    //**********************************************Reviews***************************************
+    fun generateID(l: LiveData<List<Review>>?): Int {
+        var maxID = 0
+        return if (l == null) {
+            maxID
+        } else {
+            for (r in l.getValue()!!) {
+                if (r.reviewId > maxID) {
+                    maxID = r.reviewId
+                }
+            }
+            maxID + 1
+        }
+    }
+
 
 
     fun addReview(review: Review, listener: ListenerVoid) {
