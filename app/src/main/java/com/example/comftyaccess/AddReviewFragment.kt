@@ -28,10 +28,10 @@ class AddReviewFragment : Fragment() {
     private fun addTestReview() {
         val newReview = Review(
             hotelName = "Test Hotel",
-            email = "test@example.com",
-            rate = 5,
-            age = 25,
-            accessNeed = "Mobility Impairment",
+            email = "xw1@example.com",
+            rate = 3,
+            age = 18,
+            accessNeed = "Speech Impairment",
             img = "url_to_image",
             description = "This is a test review."
         )
