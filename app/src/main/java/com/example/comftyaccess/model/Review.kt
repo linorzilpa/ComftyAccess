@@ -10,7 +10,7 @@ import java.util.*
 
 @Entity(tableName = "reviews")
 data class Review(
-    @PrimaryKey(autoGenerate = true) val reviewId: Int = 0,
+    @PrimaryKey(autoGenerate = true) var reviewId: Int = 0,
     var hotelName: String,
     var email: String,
     var rate: Int,
@@ -23,7 +23,12 @@ data class Review(
     init {
         email = email.lowercase(Locale.getDefault()) // Normalize the email to lowercase
     }
+    constructor(emailOfOwner: String, description: String, city: String, sport: String, img: String) :
+            this(hotelName = city, email = emailOfOwner, rate = 1, age = 18, accessNeed = sport, img = img, description = description)
 
+    // Secondary constructor for initialization with reviewId
+    constructor(id: String, emailOfOwner: String, description: String, city: String, sport: String, img: String) :
+            this(reviewId = id.toInt(), hotelName = city, email = emailOfOwner, rate = 1, age = 18, accessNeed = sport, img = img, description = description)
     fun validate() {
         if (rate !in 1..5) throw IllegalArgumentException("Rate must be between 1 and 5")
         if (age < 18) throw IllegalArgumentException("Age must be 18 or older")
@@ -55,6 +60,9 @@ data class Review(
             val lastUpdated = (json[LAST_UPDATED] as Timestamp?)?.seconds
             return Review(reviewId, hotelName, email, rate, age, accessNeed, img, description, lastUpdated)
         }
+
+
+
         fun getLocalLastUpdate(): Long {
             val sharedPref = MyApplication.getMyContext().getSharedPreferences("TAG", Context.MODE_PRIVATE)
             return sharedPref.getLong(LOCAL_LAST_UPDATED, 0)
@@ -67,18 +75,24 @@ data class Review(
                 commit()
             }
         }
+
     }
-        fun toJson(): Map<String, Any> = hashMapOf(
-            REVIEW_ID to reviewId,
-            HOTEL_NAME to hotelName,
-            EMAIL to email.lowercase(Locale.getDefault()), // Ensures email is always stored in lowercase
-            RATE to rate,
-            AGE to age,
-            ACCESS_NEED to accessNeed,
-            IMG to img,
-            DESCRIPTION to description,
-            LAST_UPDATED to FieldValue.serverTimestamp()
-        )
+
+    fun generateID() {
+        reviewId = Model.instance.generateID(Model.instance.getAllReviews())
+    }
+    fun toJson(): Map<String, Any> = hashMapOf(
+        REVIEW_ID to reviewId,
+        HOTEL_NAME to hotelName,
+        EMAIL to email.lowercase(Locale.getDefault()), // Ensures email is always stored in lowercase
+        RATE to rate,
+        AGE to age,
+        ACCESS_NEED to accessNeed,
+        IMG to img,
+        DESCRIPTION to description,
+        LAST_UPDATED to FieldValue.serverTimestamp()
+    )
+
 
 
 }

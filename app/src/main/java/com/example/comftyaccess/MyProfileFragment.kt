@@ -5,6 +5,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.fragment.findNavController
+import com.example.comftyaccess.databinding.FragmentMyProfileBinding
+import com.example.comftyaccess.databinding.FragmentSignInBinding
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -20,6 +23,8 @@ class MyProfileFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
+    private lateinit var binding: FragmentMyProfileBinding
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,8 +38,14 @@ class MyProfileFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_my_profile, container, false)
+        binding = FragmentMyProfileBinding.inflate(layoutInflater)
+
+        binding.imageView2.setOnClickListener { view ->
+            val action = MyProfileFragmentDirections.actionMyProfileFragmentToEditProfileFragment()
+            findNavController().navigate(action)
+        }
+
+        return binding.root
     }
 
     companion object {

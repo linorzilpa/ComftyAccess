@@ -7,11 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.lifecycleScope
 import com.example.comftyaccess.model.Model
 import com.example.comftyaccess.model.Review
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 
 class AddReviewFragment : Fragment() {
 
@@ -30,7 +27,6 @@ class AddReviewFragment : Fragment() {
 
     private fun addTestReview() {
         val newReview = Review(
-            reviewId = 0, // AutoGenerate should handle the ID
             hotelName = "Test Hotel",
             email = "test@example.com",
             rate = 5,
@@ -39,8 +35,8 @@ class AddReviewFragment : Fragment() {
             img = "url_to_image",
             description = "This is a test review."
         )
-
-         Model.instance.addReview(newReview) {
+        newReview.generateID()
+        Model.instance.addReview(newReview) {
              Toast.makeText(
                         context, // Make sure to use requireContext() to avoid context-related issues
                         "Review added!",
@@ -50,8 +46,5 @@ class AddReviewFragment : Fragment() {
              Log.d("AddReviewFragment", "Review inserted")
 
         }
-
-
-
 
 }
