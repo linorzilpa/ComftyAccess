@@ -69,6 +69,9 @@ dependencies {
     implementation ("com.google.firebase:firebase-firestore:21.7.1")
     implementation ("com.google.android.gms:play-services-auth:18.1.0")
     implementation ("com.squareup.picasso:picasso:2.8")
+    implementation ("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation ("com.squareup.retrofit2:converter-gson:2.9.0")
+    implementation ("com.squareup.okhttp3:okhttp:4.9.0")
 
 
 
