@@ -15,19 +15,30 @@ import javax.net.ssl.X509TrustManager
 import org.json.JSONObject
 import java.net.URL
 
+/**
+ * ViewModel for fetching hotel data from the Amadeus API.
+ * This ViewModel handles network requests asynchronously, bypasses SSL certificate validation,
+ * and updates UI components - Hotel name drop down spinner.
+ */
 class HotelViewModel : ViewModel() {
+    // List to hold the hotels data fetched from the API
     private var hotels: List<Hotel> = listOf()
 
     init {
+        // Trust all SSL certificates - only use this for development
         trustAllCertificates()
     }
 
+    /**
+     * Fetch hotels asynchronously and handle the result on the UI thread.
+     * @param onResult Callback to pass the fetched hotels back to the UI thread.
+     */
     fun loadHotels(onResult: (List<Hotel>) -> Unit) {
-        viewModelScope.launch(Dispatchers.IO) {  // Switch to IO dispatcher
+        viewModelScope.launch(Dispatchers.IO) {  // Perform network operations on IO dispatcher
             try {
                 hotels = fetchHotels()
-                withContext(Dispatchers.Main) {  // Switch back to Main Thread for UI operations
-                    onResult(hotels)  // Pass the loaded hotels to the callback
+                withContext(Dispatchers.Main) {  // Switch back to Main Thread to update UI
+                    onResult(hotels)
                 }
             } catch (e: Exception) {
                 Log.e("HotelViewModel", "Error fetching hotels: ${e.message}", e)
@@ -35,6 +46,9 @@ class HotelViewModel : ViewModel() {
         }
     }
 
+    /**
+     * Setup to bypass SSL certificate validation.
+     */
     private fun trustAllCertificates() {
         val trustAllCerts = arrayOf<TrustManager>(object : X509TrustManager {
             override fun getAcceptedIssuers(): Array<X509Certificate>? = null
@@ -52,9 +66,13 @@ class HotelViewModel : ViewModel() {
         }
     }
 
+    /**
+     * Fetch hotels from the API.
+     * @return List of Hotel objects parsed from the API response.
+     */
     private suspend fun fetchHotels(): List<Hotel> {
-        val url = URL("https://test.api.amadeus.com/v1/reference-data/locations/hotels/by-city?cityCode=PAR&radius=5&radiusUnit=KM&hotelSource=ALL")
-        val accessToken = "xekkIrM20Bxvhzmp1XPBOIrGOOPH"  // Use securely fetched token
+        val url = URL("https://test.api.amadeus.com/v1/reference-data/locations/hotels/by-city?cityCode=NYC&radius=5&radiusUnit=KM&hotelSource=ALL")
+        val accessToken = "GMAsP2UQNUYYhDD5r4wwQPMZwbyv"  // Placeholder for securely fetched token
         val connection = url.openConnection() as HttpsURLConnection
         connection.apply {
             requestMethod = "GET"
@@ -76,6 +94,11 @@ class HotelViewModel : ViewModel() {
         }
     }
 
+    /**
+     * Parse JSON response into a list of Hotel objects.
+     * @param jsonStr JSON string to parse.
+     * @return List of Hotel objects.
+     */
     private fun parseHotels(jsonStr: String): List<Hotel> {
         val jsonObject = JSONObject(jsonStr)
         val dataArray = jsonObject.getJSONArray("data")
