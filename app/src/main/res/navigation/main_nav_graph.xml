@@ -25,6 +25,9 @@
         <action
             android:id="@+id/action_myProfileFragment_to_editProfileFragment"
             app:destination="@id/editProfileFragment" />
+        <action
+            android:id="@+id/action_myProfileFragment_to_filteredReviewsFragment"
+            app:destination="@id/filteredReviewsFragment" />
     </fragment>
     <action android:id="@+id/action_global_myProfileFragment" app:destination="@id/myProfileFragment" /><action android:id="@+id/action_global_allReviewsFragment" app:destination="@id/allReviewsFragment"/>
     <fragment

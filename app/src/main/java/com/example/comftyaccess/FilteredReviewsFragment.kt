@@ -13,13 +13,12 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.comftyaccess.databinding.FragmentAllReviewsBinding
 import com.example.comftyaccess.databinding.FragmentFilteredReviewsBinding
 import com.example.comftyaccess.model.Model
 import com.example.comftyaccess.model.Review
+import com.google.firebase.auth.FirebaseAuth
 import com.squareup.picasso.Picasso
 
 class FilteredReviewsFragment: Fragment() {
@@ -31,6 +30,8 @@ class FilteredReviewsFragment: Fragment() {
     private var ageRangeType: String? = null
     private var email: String? = null
     private var rating: String? = null
+    private val firebaseAuth: FirebaseAuth by lazy { FirebaseAuth.getInstance() }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -110,7 +111,11 @@ class FilteredReviewsFragment: Fragment() {
         }
 
         val editImageView = dialogView.findViewById<ImageView>(R.id.iv_editreview_review_details)
-        editImageView.visibility = View.GONE
+        if (firebaseAuth.currentUser!=null)
+        {
+            if (!review.email.equals(firebaseAuth.currentUser!!.email))
+                editImageView.visibility = View.GONE
+        }
 
 
         val avatarImg = dialogView.findViewById<ImageView>(R.id.iv_review_details) // Replace 'R.id.avatarImg' with the actual ID

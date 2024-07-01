@@ -13,21 +13,23 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.NavDirections
-import androidx.navigation.Navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.comftyaccess.databinding.FragmentAllReviewsBinding
 import com.example.comftyaccess.model.Model
 import com.example.comftyaccess.model.Review
+import com.google.firebase.auth.FirebaseAuth
 import com.squareup.picasso.Picasso
+import kotlin.coroutines.coroutineContext
 
 
 class AllReviewsFragment : Fragment() {
     private lateinit var binding: FragmentAllReviewsBinding
     private lateinit var reviewRecyclerAdapter: ReviewRecyclerAdapter
     private lateinit var viewModel: AllReviewsViewModel
+    private val firebaseAuth: FirebaseAuth by lazy { FirebaseAuth.getInstance() }
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -124,7 +126,11 @@ class AllReviewsFragment : Fragment() {
         }
 
         val editImageView = dialogView.findViewById<ImageView>(R.id.iv_editreview_review_details) // Replace with the correct ID
-
+        if (firebaseAuth.currentUser!=null)
+        {
+            if (!review.email.equals(firebaseAuth.currentUser!!.email))
+                editImageView.visibility = View.GONE
+        }
         editImageView.setOnClickListener {
             alertDialog.dismiss() // Dismiss the dialog first
             val action = AllReviewsFragmentDirections.actionAllReviewsFragmentToEditReviewFragment(pos)
@@ -144,6 +150,7 @@ class AllReviewsFragment : Fragment() {
                 avatarImg.setImageResource(R.drawable.ic_launcher_foreground)
             }
         } ?: avatarImg.setImageResource(R.drawable.ic_launcher_foreground)
+
 
         // Create and show the AlertDialog
         alertDialog.show()
@@ -179,25 +186,58 @@ class AllReviewsFragment : Fragment() {
         }
 
         fun bind(re: Review) {
+            Log.d("ReviewBinding", "Binding review: $re")
+
+            // Binding hotel name
             hotelnameTV.setText(re.hotelName)
+            Log.d("ReviewBinding", "Hotel name bound: ${re.hotelName}")
+
+            // Binding age
             ageTV.setText(re.age.toString())
+            Log.d("ReviewBinding", "Age bound: ${re.age}")
+
+            // Binding accessibility need
             disTV.setText(re.accessNeed)
+            Log.d("ReviewBinding", "Access need bound: ${re.accessNeed}")
+
+            // Binding star rating
             val stars = listOf(star1, star2, star3, star4, star5)
             stars.forEach { it.setImageResource(R.drawable.baseline_star_outline_24) }
             for (i in 0 until re.rate) {
                 stars[i].setImageResource(R.drawable.baseline_star_rate_24)
             }
+            Log.d("ReviewBinding", "Star rating bound: ${re.rate}")
+
+            // Binding image
             re.img?.let { imageUrl ->
-                // isNotBlank  Returns `true` if this char sequence is not empty and contains some characters except of whitespace characters.
                 if (imageUrl.isNotBlank()) {
-                    Picasso.get().load(imageUrl)
+                    val picasso = Picasso.Builder(MyApplication.getMyContext())
+                        .listener { _, uri, exception ->
+                            Log.e("ReviewBinding", "Error loading image from $uri", exception)
+                        }
+                        .build()
+                    picasso.load(imageUrl)
                         .placeholder(R.drawable.ic_launcher_foreground)
-                        .error(R.drawable.ic_launcher_foreground) // Handle error case
-                        .into(avatarImg)
+                        .error(R.drawable.ic_launcher_foreground)  // Setting error placeholder
+                        .into(avatarImg, object : com.squareup.picasso.Callback {
+                            override fun onSuccess() {
+                                Log.d("ReviewBinding", "Image loaded successfully: $imageUrl")
+                            }
+
+                            override fun onError(e: Exception?) {
+                                Log.e("ReviewBinding", "Picasso load error: ", e)
+                            }
+                        })
                 } else {
                     avatarImg.setImageResource(R.drawable.ic_launcher_foreground)
+                    Log.d("ReviewBinding", "No image provided, setting default image")
                 }
-            } ?: avatarImg.setImageResource(R.drawable.ic_launcher_foreground)
+            } ?: run {
+                avatarImg.setImageResource(R.drawable.ic_launcher_foreground)
+                Log.d("ReviewBinding", "Image URL is null, setting default image")
+            }
+
+            Log.d("ReviewBinding", "Review binding completed")
         }
     }
 

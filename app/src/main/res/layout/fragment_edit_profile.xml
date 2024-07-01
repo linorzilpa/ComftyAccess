@@ -7,6 +7,7 @@
     tools:context=".EditProfileFragment">
 
     <!-- TODO: Update blank fragment layout -->
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -19,6 +20,18 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
+
+            <ImageButton
+                android:id="@+id/eProfile_camera_addReview"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="20dp"
+                android:background="@android:drawable/ic_menu_camera"
+                app:layout_constraintStart_toEndOf="@+id/user_eprofile_iv"
+                app:layout_constraintTop_toBottomOf="@+id/eProfile_gallery_iv"
+                tools:ignore="MissingConstraints"
+                tools:src="@android:drawable/ic_menu_camera" />
 
             <Spinner
                 android:id="@+id/access_need_spinner_spinner_filter"
@@ -142,6 +155,16 @@
                 app:layout_constraintEnd_toStartOf="@+id/save_bt_eprofile"
                 app:layout_constraintStart_toStartOf="@+id/access_need_tv_eprofile"
                 app:layout_constraintTop_toBottomOf="@+id/access_need_tv_eprofile" />
+
+            <ImageView
+                android:id="@+id/eProfile_gallery_iv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="20dp"
+                android:src="@drawable/baseline_insert_photo_24"
+                app:layout_constraintStart_toEndOf="@+id/user_eprofile_iv"
+                app:layout_constraintTop_toTopOf="@+id/user_eprofile_iv" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
