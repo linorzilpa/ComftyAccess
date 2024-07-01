@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".AddReviewFragment">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".EditReviewFragment">
 
     <ScrollView
         android:id="@+id/scrollView2"
@@ -18,7 +18,7 @@
 
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/description_input_addReview"
+                android:id="@+id/description_input_editReview"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -27,18 +27,18 @@
                 android:layout_marginEnd="10dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/hotelName_tv_addReview"
+                app:layout_constraintTop_toBottomOf="@+id/hotelName_tv_editReview"
                 tools:ignore="MissingConstraints">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/description_editText_addReview"
+                    android:id="@+id/description_editText_editReview"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Description:" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/hotelName_tv_addReview"
+                android:id="@+id/hotelName_tv_editReview"
                 android:layout_width="0dp"
                 android:layout_height="55dp"
                 android:layout_marginTop="24dp"
@@ -50,7 +50,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/email_tv_addReview"
+                app:layout_constraintTop_toBottomOf="@+id/email_tv_editReview"
                 app:shapeAppearanceOverlay="@style/RoundedTextView" />
 
             <com.google.android.material.card.MaterialCardView
@@ -58,90 +58,90 @@
                 android:layout_width="wrap_content"
                 android:layout_height="52dp"
                 app:cardCornerRadius="10dp"
-                app:layout_constraintBottom_toBottomOf="@+id/hotelName_tv_addReview"
+                app:layout_constraintBottom_toBottomOf="@+id/hotelName_tv_editReview"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/hotelName_tv_addReview"
+                app:layout_constraintTop_toTopOf="@+id/hotelName_tv_editReview"
                 tools:ignore="MissingConstraints">
 
                 <Spinner
-                    android:id="@+id/hotelName_spinner_addReview"
+                    android:id="@+id/hotelName_spinner_editReview"
                     android:layout_width="53dp"
                     android:layout_height="55dp"
                     android:background="@drawable/drop_down_yellow_arrow" />
             </com.google.android.material.card.MaterialCardView>
 
             <ImageButton
-                android:id="@+id/btn_camera_addReview"
+                android:id="@+id/btn_camera_editReview"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_marginStart="20dp"
                 android:layout_marginBottom="20dp"
                 android:background="@android:drawable/ic_menu_camera"
-                app:layout_constraintBottom_toTopOf="@+id/btn_gallery_addReview"
-                app:layout_constraintStart_toEndOf="@+id/iv_addReview"
+                app:layout_constraintBottom_toTopOf="@+id/btn_gallery_editReview"
+                app:layout_constraintStart_toEndOf="@+id/iv_editReview"
                 tools:ignore="MissingConstraints"
                 tools:src="@android:drawable/ic_menu_camera" />
 
             <ImageButton
-                android:id="@+id/btn_gallery_addReview"
+                android:id="@+id/btn_gallery_editReview"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_marginStart="20dp"
                 android:background="@drawable/baseline_insert_photo_24"
-                app:layout_constraintBottom_toBottomOf="@+id/iv_addReview"
-                app:layout_constraintStart_toEndOf="@+id/iv_addReview"
+                app:layout_constraintBottom_toBottomOf="@+id/iv_editReview"
+                app:layout_constraintStart_toEndOf="@+id/iv_editReview"
                 tools:ignore="MissingConstraints"
                 tools:src="@drawable/baseline_insert_photo_24" />
 
             <ImageView
-                android:id="@+id/row_star1_addReview"
+                android:id="@+id/row_star1_editReview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toEndOf="@+id/row_star2_addReview"
-                app:layout_constraintTop_toTopOf="@+id/row_star3_addReview"
+                app:layout_constraintStart_toEndOf="@+id/row_star2_editReview"
+                app:layout_constraintTop_toTopOf="@+id/row_star3_editReview"
                 app:srcCompat="@drawable/baseline_star_outline_24" />
 
             <ImageView
-                android:id="@+id/row_star2_addReview"
+                android:id="@+id/row_star2_editReview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintEnd_toStartOf="@+id/row_star1_addReview"
+                app:layout_constraintEnd_toStartOf="@+id/row_star1_editReview"
                 app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toEndOf="@+id/row_star3_addReview"
-                app:layout_constraintTop_toTopOf="@+id/row_star3_addReview"
+                app:layout_constraintStart_toEndOf="@+id/row_star3_editReview"
+                app:layout_constraintTop_toTopOf="@+id/row_star3_editReview"
                 app:srcCompat="@drawable/baseline_star_outline_24" />
 
             <ImageView
-                android:id="@+id/row_star3_addReview"
+                android:id="@+id/row_star3_editReview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintEnd_toStartOf="@+id/row_star2_addReview"
+                app:layout_constraintEnd_toStartOf="@+id/row_star2_editReview"
                 app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toEndOf="@+id/row_star4_addReview"
-                app:layout_constraintTop_toTopOf="@+id/row_star4_addReview"
+                app:layout_constraintStart_toEndOf="@+id/row_star4_editReview"
+                app:layout_constraintTop_toTopOf="@+id/row_star4_editReview"
                 app:srcCompat="@drawable/baseline_star_outline_24" />
 
             <ImageView
-                android:id="@+id/row_star4_addReview"
+                android:id="@+id/row_star4_editReview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                app:layout_constraintEnd_toStartOf="@+id/row_star3_addReview"
+                app:layout_constraintEnd_toStartOf="@+id/row_star3_editReview"
                 app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toEndOf="@+id/row_star5_addReview"
-                app:layout_constraintTop_toBottomOf="@+id/iv_addReview"
+                app:layout_constraintStart_toEndOf="@+id/row_star5_editReview"
+                app:layout_constraintTop_toBottomOf="@+id/iv_editReview"
                 app:srcCompat="@drawable/baseline_star_outline_24" />
 
             <ImageView
-                android:id="@+id/row_star5_addReview"
+                android:id="@+id/row_star5_editReview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="32dp"
                 android:layout_marginTop="20dp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/iv_addReview"
+                app:layout_constraintTop_toBottomOf="@+id/iv_editReview"
                 app:srcCompat="@drawable/baseline_star_outline_24"
                 tools:ignore="MissingConstraints" />
 
@@ -158,17 +158,17 @@
                 tools:ignore="MissingConstraints" />
 
             <Button
-                android:id="@+id/bt_add_review"
+                android:id="@+id/bt_add_editreview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="70dp"
                 android:layout_marginEnd="70dp"
                 android:text="Add"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/description_input_addReview" />
+                app:layout_constraintTop_toBottomOf="@+id/description_input_editReview" />
 
             <ImageView
-                android:id="@+id/iv_addReview"
+                android:id="@+id/iv_editReview"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
                 android:layout_marginTop="20dp"
@@ -180,17 +180,17 @@
                 tools:src="@tools:sample/avatars" />
 
             <Button
-                android:id="@+id/bt_cancel_review"
+                android:id="@+id/bt_cancel_editreview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="70dp"
                 android:layout_marginTop="70dp"
                 android:text="Cancel"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/description_input_addReview" />
+                app:layout_constraintTop_toBottomOf="@+id/description_input_editReview" />
 
             <TextView
-                android:id="@+id/email_tv_addReview"
+                android:id="@+id/email_tv_editReview"
                 android:layout_width="wrap_content"
                 android:layout_height="30dp"
                 android:layout_marginStart="20dp"
@@ -200,7 +200,7 @@
                 android:textSize="20sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/row_star3_addReview" />
+                app:layout_constraintTop_toBottomOf="@+id/row_star3_editReview" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 

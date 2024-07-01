@@ -15,19 +15,20 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.recyclerview.widget.RecyclerView.SmoothScroller.Action
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.firebase.auth.FirebaseAuth
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var navController: NavController
     private lateinit var action: Action
     private var email:String? = null
+    private val auth: FirebaseAuth by lazy { FirebaseAuth.getInstance() }
 
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_main)
-
 
         val toolbar: Toolbar = findViewById(R.id.mainToolbar)
         setSupportActionBar(toolbar)
@@ -38,13 +39,14 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
-       val navHostFragment =
+        val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.main_nav_host) as? NavHostFragment
         navController =
             navHostFragment?.navController ?: throw RuntimeException("NavController not found")
         setupActionBarWithNavController(navController)
 
         val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottom_navigation)
+        bottomNavigationView.selectedItemId = R.id.nav_home
         bottomNavigationView.setOnItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.nav_profile -> {
@@ -57,7 +59,8 @@ class MainActivity : AppCompatActivity() {
                     navController.navigate(R.id.action_global_allReviewsFragment)
                     true
                 }
-                 R.id.nav_filter -> {
+
+                R.id.nav_filter -> {
                     navController.navigate(R.id.action_global_filterFragment)
                     true
                 }
@@ -67,15 +70,18 @@ class MainActivity : AppCompatActivity() {
 
 
         }
-        override fun onCreateOptionsMenu(menu: Menu): Boolean {
-            menuInflater.inflate(R.menu.top_nav_menu, menu)
-            return true // Return true to display the menu
-        }     
     }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.top_nav_menu, menu)
+        return true // Return true to display the menu
+    }
+
     override fun onSupportNavigateUp(): Boolean {
         return navController.navigateUp() || super.onSupportNavigateUp()
     }
-        override fun onOptionsItemSelected(item: android.view.MenuItem): Boolean {
+
+    override fun onOptionsItemSelected(item: android.view.MenuItem): Boolean {
         return when (item.itemId) {
             R.id.action_map -> {
                 navController.navigate(R.id.action_global_mapFragment)
@@ -86,6 +92,9 @@ class MainActivity : AppCompatActivity() {
                 true
             }
             R.id.action_logout -> {
+                if (auth.currentUser != null) {
+                    auth.signOut()
+                }
                 val i = Intent(this, ConnectActivity::class.java)
                 startActivity(i)
                 true

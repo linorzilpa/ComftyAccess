@@ -12,8 +12,8 @@ interface ReviewDao {
     @Query("SELECT * FROM reviews")
     fun getAllReviews(): LiveData<List<Review>>
 
-    @Query("select * from reviews where reviewId = :ReviewID")
-    fun getReviewById(ReviewID: String?): Review?
+    @Query("select * from reviews where reviewId = :reviewId")
+    fun getReviewById(reviewId: Int): Review
 
     //onConflict= if the review is already exist with the same id, it will update it.
     @Insert(onConflict = OnConflictStrategy.REPLACE)
