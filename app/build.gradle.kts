@@ -13,7 +13,7 @@ android {
 
     defaultConfig {
         applicationId = "com.example.comftyaccess"
-        minSdk = 25
+        minSdk = 21
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
@@ -63,12 +63,16 @@ dependencies {
     implementation(platform("com.google.firebase:firebase-bom:33.0.0"))
     implementation("com.google.firebase:firebase-firestore")
     implementation("com.google.firebase:firebase-analytics")
-    implementation("com.google.firebase:firebase-auth")
-    implementation(platform("com.google.firebase:firebase-bom:33.0.0"))
+    implementation("com.google.firebase:firebase-auth:21.0.2")
     implementation ("androidx.cardview:cardview:1.0.0")
     implementation ("com.google.firebase:firebase-firestore:21.7.1")
-    implementation ("com.google.android.gms:play-services-auth:18.1.0")
     implementation ("com.squareup.picasso:picasso:2.8")
+    implementation ("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation ("com.squareup.retrofit2:converter-gson:2.9.0")
+    implementation ("com.squareup.okhttp3:okhttp:4.9.0")
+    implementation ("org.osmdroid:osmdroid-android:6.1.10") // Check for the latest version on Maven Central
+    implementation ("com.google.android.gms:play-services-maps:10.2.98") // Check for the latest version available
+
 
 
 

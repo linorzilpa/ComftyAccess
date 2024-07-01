@@ -1,5 +1,6 @@
 package com.example.comftyaccess
 
+import HotelViewModel
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.Application
@@ -10,18 +11,22 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.comftyaccess.databinding.FragmentAddReviewBinding
 import com.example.comftyaccess.databinding.FragmentSignInBinding
 import com.example.comftyaccess.model.Model
 import com.example.comftyaccess.model.Review
 import com.example.comftyaccess.model.User
+
 import com.google.firebase.auth.FirebaseAuth
 
 class AddReviewFragment : Fragment() {
@@ -31,6 +36,7 @@ class AddReviewFragment : Fragment() {
     private lateinit var cameraLauncher: ActivityResultLauncher<Void?>
     private lateinit var galleryLauncher: ActivityResultLauncher<String>
     private var isAvatarSelected = false
+    private lateinit var hotelViewModel: HotelViewModel
 
 
     override fun onCreateView(
@@ -39,6 +45,7 @@ class AddReviewFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         binding = FragmentAddReviewBinding.inflate(inflater, container, false)
+        hotelViewModel = ViewModelProvider(this).get(HotelViewModel::class.java)
 
         if (auth.currentUser == null) {
             showLoginDialog()
@@ -49,11 +56,22 @@ class AddReviewFragment : Fragment() {
             setupStarRating()
             email = auth.getCurrentUser()?.getEmail().toString()
             binding.emailTvAddReview.setText(email)
+            hotelViewModel.loadHotels { hotels ->
+                Log.d("AddReviewFragment", "Hotels loaded: ${hotels.size}")
+                if (hotels.isNotEmpty()) {
+                    activity?.runOnUiThread {
+                        val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item, hotels.map { it.name })
+                        binding.hotelNameSpinnerAddReview.adapter = adapter
+                        adapter.notifyDataSetChanged()
+                    }
+                }
+            }
+
         }
+
         binding.btAddReview.setOnClickListener {
             val description = binding.descriptionEditTextAddReview.text?.toString() ?: ""
-            var hotelName = binding.hotelNameSpinnerAddReview.selectedItem?.toString() ?: "" // Ensures null safety
-            hotelName = "example"
+            val hotelName = binding.hotelNameSpinnerAddReview.selectedItem?.toString() ?: ""
             val rate = getSelectedRate()
 
             if (description.isEmpty() || hotelName.isEmpty() || rate == 0) {
@@ -65,6 +83,7 @@ class AddReviewFragment : Fragment() {
 
         return binding.root
     }
+
 
     private fun showLoginDialog() {
         context?.let {

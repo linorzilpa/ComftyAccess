@@ -22,7 +22,7 @@
             android:orientation="vertical">
 
             <ImageButton
-                android:id="@+id/eProfile_camera_addReview"
+                android:id="@+id/eProfile_camera_bt"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_marginStart="8dp"
@@ -129,7 +129,7 @@
                 tools:ignore="MissingConstraints">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/email_editText"
+                    android:id="@+id/age_editText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Age: " />

@@ -1,5 +1,6 @@
 package com.example.comftyaccess
 
+import HotelViewModel
 import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
 import android.util.Log
@@ -7,6 +8,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
@@ -27,6 +29,7 @@ class EditReviewFragment : Fragment() {
     private lateinit var galleryLauncher: ActivityResultLauncher<String>
     private var selectedReview: Review? = null
     private var isAvatarSelected: Boolean = false
+    private lateinit var hotelViewModel: HotelViewModel
 
 
     override fun onCreateView(
@@ -35,9 +38,9 @@ class EditReviewFragment : Fragment() {
     ): View {
         binding = FragmentEditReviewBinding.inflate(inflater, container, false)
         viewModel = ViewModelProvider(this).get(EditReviewViewModel::class.java)
+        hotelViewModel = ViewModelProvider(this).get(HotelViewModel::class.java)
 
         setupActivityResultLaunchers()
-        loadReviewData()
 
         setupStarRating()
 
@@ -48,6 +51,18 @@ class EditReviewFragment : Fragment() {
         binding.btAddEditreview.setOnClickListener {
             editReview()
         }
+        hotelViewModel.loadHotels { hotels ->
+            Log.d("EditReviewFragment", "Hotels loaded: ${hotels.size}")
+            if (hotels.isNotEmpty()) {
+                activity?.runOnUiThread {
+                    val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item, hotels.map { it.name })
+                    binding.hotelNameSpinnerEditReview.adapter = adapter
+                    adapter.notifyDataSetChanged()
+                }
+            }
+            loadReviewData()
+        }
+
 
         return binding.root
     }
@@ -58,6 +73,9 @@ class EditReviewFragment : Fragment() {
         selectedReview?.let { review ->
             binding.emailTvEditReview.text = review.email
             binding.descriptionEditTextEditReview.setText(review.description)
+            val hotelNameIndex= (binding.hotelNameSpinnerEditReview.adapter as ArrayAdapter<String>).getPosition(review.hotelName)
+            binding.hotelNameSpinnerEditReview.setSelection(hotelNameIndex)
+
             if (review.img.isNotBlank()) {
                 Picasso.get().load(review.img)
                     .placeholder(R.drawable.ic_launcher_foreground)
@@ -149,7 +167,7 @@ class EditReviewFragment : Fragment() {
 
     private fun editReview() {
 
-        selectedReview!!.hotelName = binding.hotelNameTvEditReview.text.toString()
+        selectedReview!!.hotelName = binding.hotelNameSpinnerEditReview.selectedItem.toString()
         selectedReview!!.description = binding.descriptionEditTextEditReview.text.toString()
         selectedReview!!.email = binding.emailTvEditReview.text.toString()
         selectedReview!!.rate = calculateRating()
@@ -181,3 +199,4 @@ class EditReviewFragment : Fragment() {
     }
 
 }
+
