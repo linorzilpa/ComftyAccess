@@ -74,7 +74,7 @@ class MyProfileFragment : Fragment() {
                         binding.emailProfileTv.text = usr.email
                         binding.ageProfileTv.text = usr.age.toString()
                         binding.accessneedProfileTv.text = usr.accessNeed
-                        binding.helloProfileTv.text = "Hello "+ usr.name
+                        binding.helloProfileTv.text = "Hello ${usr.name}"
                         usr.img?.let { imageUrl ->
                             if (imageUrl.isNotBlank()) {
                                 Picasso.get().load(imageUrl)
