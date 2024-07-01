@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
-    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-sdk tools:overrideLibrary="com.google.firebase.auth"/>
 
     <application
         android:networkSecurityConfig="@xml/network_security_config"
@@ -18,7 +20,12 @@
         android:theme="@style/Theme.ComftyAccess"
         tools:targetApi="31"
         android:usesCleartextTraffic="true"
+        android:hardwareAccelerated="true"
         tools:ignore="GoogleAppIndexingWarning">
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyDDNCOH9AaR9OwWYotKf6PZOqU5zOx77us"/>
+
         <uses-library
             android:name="org.apache.http.legacy"
             android:required="false" />
