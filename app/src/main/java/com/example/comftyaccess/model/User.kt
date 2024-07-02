@@ -48,7 +48,4 @@ data class User(
         return json
     }
 
-    fun validate() {
-        if (age < 18) throw IllegalArgumentException("Age must be 18 or older")
-    }
 }

@@ -69,6 +69,7 @@ class AllReviewsFragment : Fragment() {
 
     private fun setupViewModel() {
         viewModel = ViewModelProvider(this)[AllReviewsViewModel::class.java]
+        //Every time that the view model list changes , also the RV changes
         viewModel.data.observe(viewLifecycleOwner) { reviews ->
             reviewRecyclerAdapter.data = reviews
             if (reviews.isNullOrEmpty()) {

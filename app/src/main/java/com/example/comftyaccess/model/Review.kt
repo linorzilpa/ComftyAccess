@@ -29,11 +29,7 @@ data class Review(
     // Secondary constructor for initialization with reviewId
     constructor(id: String, emailOfOwner: String, description: String, city: String, sport: String, img: String) :
             this(reviewId = id.toInt(), hotelName = city, email = emailOfOwner, rate = 1, age = 18, accessNeed = sport, img = img, description = description)
-    fun validate() {
-        if (rate !in 1..5) throw IllegalArgumentException("Rate must be between 1 and 5")
-        if (age < 18) throw IllegalArgumentException("Age must be 18 or older")
-        if (description.isEmpty()) throw IllegalArgumentException("Description cannot be empty")
-    }
+
     companion object {
         const val REVIEW_ID = "reviewId"
         const val HOTEL_NAME = "hotelName"
