@@ -143,20 +143,22 @@ class Model {
         }
     }
 
-    fun getFilterReviews(reviews: List<Review>?, accessNeedType: String?, ageRangeType: String?, email: String?, rating: String?): List<Review> {
+    fun getFilterReviews(reviews: List<Review>?, accessNeedType: String?, ageRangeType: String?, email: String?, rating: String?, hotelName: String?): List<Review> {
         Log.d("FilterDebug", "Starting filter process...")
-        Log.d("FilterDebug", "Filter Parameters: AccessNeedType='$accessNeedType', AgeRangeType='$ageRangeType', Email='$email', Rating='$rating'")
+        Log.d("FilterDebug", "Filter Parameters: AccessNeedType='$accessNeedType', AgeRangeType='$ageRangeType', Email='$email', Rating='$rating' , Hotel Name= '$hotelName'" )
 
         val filteredReviews = reviews?.filter { review ->
             val byAccessNeed = accessNeedType?.takeUnless { it == "Rather not to mention" }?.let { review.accessNeed == it } ?: true
             val byAgeRange = ageRangeType?.takeUnless { it == "Rather not to mention" }?.let { ageRangeMatches(review.age, it) } ?: true
             val byEmail = email?.takeUnless { it == "Rather not to mention" }?.let { review.email == it } ?: true
             val byRating = rating?.takeUnless { it == "Rather not to mention" }?.let { review.rate.toString() == it } ?: true
+            val byHotelName = hotelName?.takeUnless { it == "Rather not to mention" }?.let { review.hotelName == it } ?: true
+
 
             // Debug log to check which reviews are passing the filters
-            Log.d("FilterDebug", "Review: ${review.hotelName}, AccessNeed: ${review.accessNeed}, Age: ${review.age}, Email: ${review.email}, Rate: ${review.rate}, Matches: ${byAccessNeed && byAgeRange && byEmail && byRating}")
+            Log.d("FilterDebug", "Review: ${review.hotelName}, AccessNeed: ${review.accessNeed}, Age: ${review.age}, Email: ${review.email}, Rate: ${review.rate}, Hotel Name= '$hotelName' Matches: ${byAccessNeed && byAgeRange && byEmail && byRating}")
 
-            byAccessNeed && byAgeRange && byEmail && byRating
+            byAccessNeed && byAgeRange && byEmail && byRating && byHotelName
         } ?: emptyList()
 
         Log.d("FilterDebug", "Filtered reviews count: ${filteredReviews.size}")

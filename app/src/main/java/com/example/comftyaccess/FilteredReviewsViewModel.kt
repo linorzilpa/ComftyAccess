@@ -14,9 +14,10 @@ class FilteredReviewsViewModel : ViewModel() {
         accessNeedType: String?,
         ageRangeType: String,
         email: String,
-        rating: String
+        rating: String,
+        hotelName: String
     ): List<Review> {
-        return repository.getFilterReviews(reviews, accessNeedType, ageRangeType, email, rating)
+        return repository.getFilterReviews(reviews, accessNeedType, ageRangeType, email, rating, hotelName)
     }
 
     val data: LiveData<List<Review>> by lazy {
