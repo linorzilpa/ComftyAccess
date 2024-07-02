@@ -30,6 +30,7 @@ class FilteredReviewsFragment: Fragment() {
     private var ageRangeType: String? = null
     private var email: String? = null
     private var rating: String? = null
+    private var hotelName: String? = null
     private val firebaseAuth: FirebaseAuth by lazy { FirebaseAuth.getInstance() }
 
     override fun onCreateView(
@@ -43,6 +44,8 @@ class FilteredReviewsFragment: Fragment() {
             if (email.equals(""))
                 email = "Rather not to mention"
             rating = it.getString("rating")
+            hotelName= it.getString("hotelName")
+
         }
         binding = FragmentFilteredReviewsBinding.inflate(inflater, container, false)
         reloadData()
@@ -62,7 +65,7 @@ class FilteredReviewsFragment: Fragment() {
         reviewRecyclerAdapter.setOnItemClickListener(object : OnItemClickListener {
             override fun onItemClick(pos: Int) {
                 val selectedReview = viewModel.filterReviews(viewModel.data.value, accessNeedType!!,
-                    ageRangeType!!, email!!, rating!!).get(pos)
+                    ageRangeType!!, email!!, rating!!, hotelName!!).get(pos)
                 if (selectedReview != null) {
                     showDialogWithReviewDetails(selectedReview, pos)
                 } else {
@@ -140,7 +143,7 @@ class FilteredReviewsFragment: Fragment() {
         viewModel.data.observe(viewLifecycleOwner) { reviews ->
             Log.d("FilteredReviewsFragment", "Total reviews fetched: ${reviews.size}")
             val filteredReviews = viewModel.filterReviews(reviews, accessNeedType!!,
-                ageRangeType!!, email!!, rating!!)
+                ageRangeType!!, email!!, rating!! , hotelName!!)
             reviewRecyclerAdapter.data = filteredReviews
             if (filteredReviews.isNullOrEmpty()) {
                 Log.d("FilteredReviewsFragment", "No reviews available after filtering")
@@ -155,7 +158,7 @@ class FilteredReviewsFragment: Fragment() {
         super.onStart()
         (activity as AppCompatActivity?)!!.supportActionBar!!.title = "Filter Reviews"
         if (viewModel.filterReviews(viewModel.data.value,accessNeedType!!,
-                ageRangeType!!, email!!, rating!!
+                ageRangeType!!, email!!, rating!! , hotelName!!
             )
                 .isNullOrEmpty()) {
             Model.instance.refreshAllReviews()

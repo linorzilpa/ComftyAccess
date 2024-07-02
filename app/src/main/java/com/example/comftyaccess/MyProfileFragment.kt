@@ -41,10 +41,11 @@ class MyProfileFragment : Fragment() {
         bindProfile()
         binding.myReviewsMyprofileBt.setOnClickListener {
             val action = MyProfileFragmentDirections.actionMyProfileFragmentToFilteredReviewsFragment(
-                 "Rather not to mention",
+                 firebaseAuth.currentUser!!.email ?: "Rather not to mention",
                 "Rather not to mention",
                  "Rather not to mention",
-                firebaseAuth.currentUser!!.email ?: "Rather not to mention"
+                "Rather not to mention",
+                "Rather not to mention"
             )
             findNavController().navigate(action)
 

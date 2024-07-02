@@ -69,11 +69,12 @@ class FilterFragment : Fragment() {
             }
             // Prepare to send the data to another fragment or activity
             val action = FilterFragmentDirections.actionFilterFragmentToFilteredReviewsFragment(
+                email ?: "Rather not to mention",
                 accessNeedType ?: "Rather not to mention",
                 rating ?: "Rather not to mention",
                 ageRangeType ?: "Rather not to mention",
-                email ?: "Rather not to mention"
-            )
+                "Rather not to mention" )
+
             Log.d("FilterFragment", "Access Need Type: $accessNeedType")
             Log.d("FilterFragment", "Age Range Type: $ageRangeType")
             Log.d("FilterFragment", "Email: $email")

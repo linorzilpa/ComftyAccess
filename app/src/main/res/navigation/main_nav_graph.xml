@@ -48,7 +48,11 @@
         android:id="@+id/mapFragment"
         android:name="com.example.comftyaccess.MapFragment"
         android:label="fragment_map"
-        tools:layout="@layout/fragment_map" /><action android:id="@+id/action_global_mapFragment" app:destination="@id/mapFragment"/><action android:id="@+id/action_global_addReviewFragment" app:destination="@id/addReviewFragment"/>
+        tools:layout="@layout/fragment_map" >
+        <action
+            android:id="@+id/action_mapFragment_to_filteredReviewsFragment"
+            app:destination="@id/filteredReviewsFragment" />
+    </fragment><action android:id="@+id/action_global_mapFragment" app:destination="@id/mapFragment"/><action android:id="@+id/action_global_addReviewFragment" app:destination="@id/addReviewFragment"/>
     <fragment
         android:id="@+id/editProfileFragment"
         android:name="com.example.comftyaccess.EditProfileFragment"
@@ -61,8 +65,7 @@
         tools:layout="@layout/fragment_filtered_reviews" >
         <argument
             android:name="email"
-            app:argType="string"
-            android:defaultValue="Rather not to mention" />
+            app:argType="string" />
         <argument
             android:name="accessNeedType"
             app:argType="string" />
@@ -71,6 +74,9 @@
             app:argType="string" />
         <argument
             android:name="ageRangeType"
+            app:argType="string" />
+        <argument
+            android:name="hotelName"
             app:argType="string" />
     </fragment>
     <fragment
