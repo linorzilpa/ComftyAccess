@@ -12,6 +12,7 @@ import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.comftyaccess.databinding.FragmentSignUpBinding
@@ -30,6 +31,11 @@ class SignUpFragment : Fragment() {
 
     private lateinit var cameraLauncher: ActivityResultLauncher<Void?>
     private lateinit var galleryLauncher: ActivityResultLauncher<String>
+    
+    override fun onStart() {
+        (activity as AppCompatActivity?)!!.supportActionBar!!.title = "Sign up"
+        super.onStart()
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {

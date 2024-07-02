@@ -18,6 +18,7 @@ import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -38,6 +39,10 @@ class AddReviewFragment : Fragment() {
     private var isAvatarSelected = false
     private lateinit var hotelViewModel: HotelViewModel
 
+    override fun onStart() {
+        (activity as AppCompatActivity?)!!.supportActionBar!!.title = "Add review"
+        super.onStart()
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

@@ -13,6 +13,7 @@ import android.widget.ImageView
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.comftyaccess.databinding.FragmentAllReviewsBinding
@@ -31,6 +32,10 @@ class EditReviewFragment : Fragment() {
     private var isAvatarSelected: Boolean = false
     private lateinit var hotelViewModel: HotelViewModel
 
+    override fun onStart() {
+        (activity as AppCompatActivity?)!!.supportActionBar!!.title = "Edit review"
+        super.onStart()
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

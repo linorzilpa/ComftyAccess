@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
@@ -26,6 +27,12 @@ class MapFragment : Fragment(), OnMapReadyCallback {
     private lateinit var binding: FragmentMapBinding
     private val hotelViewModel: HotelViewModel by viewModels()  // Correctly initialize the ViewModel
     private val allReviewsViewModel: AllReviewsViewModel by viewModels()
+
+    override fun onStart() {
+        (activity as AppCompatActivity?)!!.supportActionBar!!.title = "Map"
+        super.onStart()
+    }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = FragmentMapBinding.inflate(inflater, container, false)
         Log.d("MapFragment", "View created")

@@ -13,6 +13,7 @@ import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.findNavController
 import com.example.comftyaccess.databinding.FragmentEditProfileBinding
 import com.example.comftyaccess.databinding.FragmentMyProfileBinding
@@ -29,6 +30,12 @@ class EditProfileFragment : Fragment() {
     private var isAvatarSelected:Boolean = false
     private lateinit var cameraLauncher: ActivityResultLauncher<Void?>
     private lateinit var galleryLauncher: ActivityResultLauncher<String>
+
+    override fun onStart() {
+        (activity as AppCompatActivity?)!!.supportActionBar!!.title = "Edit profile"
+        super.onStart()
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
