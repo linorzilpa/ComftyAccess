@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
+import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
@@ -92,6 +93,7 @@ class AllReviewsFragment : Fragment() {
 
     fun showDialogWithReviewDetails(review: Review, pos: Int) {
         val dialogView = layoutInflater.inflate(R.layout.dialog_review_details, null)
+        dialogView.findViewById<ProgressBar>(R.id.progressBarRD).visibility = View.VISIBLE
 
         // Binding TextViews with review details
         dialogView.findViewById<TextView>(R.id.tv_edit_hotelname_review_details).text = review.hotelName
@@ -149,6 +151,7 @@ class AllReviewsFragment : Fragment() {
             } else {
                 avatarImg.setImageResource(R.drawable.ic_launcher_foreground)
             }
+            dialogView.findViewById<ProgressBar>(R.id.progressBarRD).visibility = View.GONE
         } ?: avatarImg.setImageResource(R.drawable.ic_launcher_foreground)
 
 

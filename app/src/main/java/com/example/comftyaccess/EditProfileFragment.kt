@@ -47,6 +47,7 @@ class EditProfileFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         binding = FragmentEditProfileBinding.inflate(layoutInflater)
+        binding.progressBarEP.visibility = View.GONE
         createAccessNeedSpinner()
         bindProfile()
         setupActivityResultLaunchers()
@@ -61,6 +62,7 @@ class EditProfileFragment : Fragment() {
     }
 
     private fun saveUserUpdate() {
+        binding.progressBarEP.visibility = View.VISIBLE
         Model.instance.getAllUsers { users ->
             val userEmail = firebaseAuth.currentUser?.email  // Safe call
             if (userEmail != null) {  // Check if email is not null
@@ -96,12 +98,14 @@ class EditProfileFragment : Fragment() {
                     }
                 }
             }
+            binding.progressBarEP.visibility = View.GONE
         }
 
     }
 
     @SuppressLint("SetTextI18n")
     private fun bindProfile() {
+        binding.progressBarEP.visibility = View.VISIBLE
         val userEmail = firebaseAuth.currentUser?.email
         if (userEmail != null) {
             Model.instance.getAllUsers { users ->
@@ -128,7 +132,7 @@ class EditProfileFragment : Fragment() {
 
 
                 }
-
+                binding.progressBarEP.visibility = View.GONE
             }
         }
     }
