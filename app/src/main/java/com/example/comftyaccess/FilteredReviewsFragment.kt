@@ -178,7 +178,7 @@ class FilteredReviewsFragment: Fragment() {
     internal class FilteredReviewsViewHolder(itemView: View, listener: OnItemClickListener?) :
         RecyclerView.ViewHolder(itemView) {
         var hotelnameTV: TextView
-        var ageTV: TextView
+        var ageTV: TextView // linor
         var disTV: TextView
         var avatarImg: ImageView
         var star1: ImageView
@@ -189,7 +189,7 @@ class FilteredReviewsFragment: Fragment() {
 
         init {
             hotelnameTV = itemView.findViewById(R.id.row_hotel_name)
-            ageTV= itemView.findViewById(R.id.row_age_TextView)
+            ageTV= itemView.findViewById(R.id.row_age_TextView) // linor
             disTV= itemView.findViewById(R.id.row_disabillity_textView)
             star1 = itemView.findViewById(R.id.row_star1)
             star2 = itemView.findViewById(R.id.row_star2)
@@ -205,7 +205,7 @@ class FilteredReviewsFragment: Fragment() {
 
         fun bind(re: Review) {
             hotelnameTV.setText(re.hotelName)
-            ageTV.setText(re.age.toString())
+            ageTV.setText(re.age.toString()) // linor
             disTV.setText(re.accessNeed)
             val stars = listOf(star1, star2, star3, star4, star5)
             stars.forEach { it.setImageResource(R.drawable.baseline_star_outline_24) }

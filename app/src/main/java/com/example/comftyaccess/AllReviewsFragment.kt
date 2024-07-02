@@ -164,7 +164,7 @@ class AllReviewsFragment : Fragment() {
     internal class AllReviewsViewHolder(itemView: View, listener: OnItemClickListener?) :
         RecyclerView.ViewHolder(itemView) {
         var hotelnameTV: TextView
-        var ageTV: TextView
+        var ageTV: TextView // Error need to fix linor
         var disTV: TextView
         var avatarImg: ImageView
         var star1: ImageView
@@ -175,7 +175,7 @@ class AllReviewsFragment : Fragment() {
 
         init {
             hotelnameTV = itemView.findViewById(R.id.row_hotel_name)
-            ageTV= itemView.findViewById(R.id.row_age_TextView)
+            ageTV= itemView.findViewById(R.id.row_age_TextView) // Error need to fix linor
             disTV= itemView.findViewById(R.id.row_disabillity_textView)
             star1 = itemView.findViewById(R.id.row_star1)
             star2 = itemView.findViewById(R.id.row_star2)
@@ -197,7 +197,7 @@ class AllReviewsFragment : Fragment() {
             Log.d("ReviewBinding", "Hotel name bound: ${re.hotelName}")
 
             // Binding age
-            ageTV.setText(re.age.toString())
+            ageTV.setText(re.age.toString()) // error nned to fix linor
             Log.d("ReviewBinding", "Age bound: ${re.age}")
 
             // Binding accessibility need

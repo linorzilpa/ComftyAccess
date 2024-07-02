@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="gcm_defaultSenderId" translatable="false">422162705053</string>
+    <string name="google_api_key" translatable="false">AIzaSyBHY_6A3ysDj5CoieN52U9uNkK33bZpR64</string>
+    <string name="google_app_id" translatable="false">1:422162705053:android:8704d0f89a88339206c274</string>
+    <string name="google_crash_reporting_api_key" translatable="false">AIzaSyBHY_6A3ysDj5CoieN52U9uNkK33bZpR64</string>
+    <string name="google_storage_bucket" translatable="false">comftyaccess-ce48c.appspot.com</string>
+    <string name="project_id" translatable="false">comftyaccess-ce48c</string>
+</resources>

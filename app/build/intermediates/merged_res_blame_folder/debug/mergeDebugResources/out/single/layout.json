@@ -1,0 +1,70 @@
+[
+    {
+        "merged": "/Users/lini/.gradle/daemon/8.4/com.example.comftyaccess.app-mergeDebugResources-65:/layout/fragment_edit_profile.xml",
+        "source": "/Users/lini/.gradle/daemon/8.4/com.example.comftyaccess.app-main-68:/layout/fragment_edit_profile.xml"
+    },
+    {
+        "merged": "/Users/lini/.gradle/daemon/8.4/com.example.comftyaccess.app-mergeDebugResources-65:/layout/activity_connect.xml",
+        "source": "/Users/lini/.gradle/daemon/8.4/com.example.comftyaccess.app-main-68:/layout/activity_connect.xml"
+    },
+    {
+        "merged": "/Users/lini/.gradle/daemon/8.4/com.example.comftyaccess.app-mergeDebugResources-65:/layout/fragment_all_reviews.xml",
+        "source": "/Users/lini/.gradle/daemon/8.4/com.example.comftyaccess.app-main-68:/layout/fragment_all_reviews.xml"
+    },
+    {
+        "merged": "/Users/lini/.gradle/daemon/8.4/com.example.comftyaccess.app-mergeDebugResources-65:/layout/fragment_sign_up.xml",
+        "source": "/Users/lini/.gradle/daemon/8.4/com.example.comftyaccess.app-main-68:/layout/fragment_sign_up.xml"
+    },
+    {
+        "merged": "/Users/lini/.gradle/daemon/8.4/com.example.comftyaccess.app-mergeDebugResources-65:/layout/dialog_accessibility_needs.xml",
+        "source": "/Users/lini/.gradle/daemon/8.4/com.example.comftyaccess.app-main-68:/layout/dialog_accessibility_needs.xml"
+    },
+    {
+        "merged": "/Users/lini/.gradle/daemon/8.4/com.example.comftyaccess.app-mergeDebugResources-65:/layout/fragment_filter.xml",
+        "source": "/Users/lini/.gradle/daemon/8.4/com.example.comftyaccess.app-main-68:/layout/fragment_filter.xml"
+    },
+    {
+        "merged": "/Users/lini/.gradle/daemon/8.4/com.example.comftyaccess.app-mergeDebugResources-65:/layout/fragment_sign_in.xml",
+        "source": "/Users/lini/.gradle/daemon/8.4/com.example.comftyaccess.app-main-68:/layout/fragment_sign_in.xml"
+    },
+    {
+        "merged": "/Users/lini/.gradle/daemon/8.4/com.example.comftyaccess.app-mergeDebugResources-65:/layout/fragment_edit_review.xml",
+        "source": "/Users/lini/.gradle/daemon/8.4/com.example.comftyaccess.app-main-68:/layout/fragment_edit_review.xml"
+    },
+    {
+        "merged": "/Users/lini/.gradle/daemon/8.4/com.example.comftyaccess.app-mergeDebugResources-65:/layout/fragment_add_review.xml",
+        "source": "/Users/lini/.gradle/daemon/8.4/com.example.comftyaccess.app-main-68:/layout/fragment_add_review.xml"
+    },
+    {
+        "merged": "/Users/lini/.gradle/daemon/8.4/com.example.comftyaccess.app-mergeDebugResources-65:/layout/fragment_filtered_reviews.xml",
+        "source": "/Users/lini/.gradle/daemon/8.4/com.example.comftyaccess.app-main-68:/layout/fragment_filtered_reviews.xml"
+    },
+    {
+        "merged": "/Users/lini/.gradle/daemon/8.4/com.example.comftyaccess.app-mergeDebugResources-65:/layout/dialog_review_details.xml",
+        "source": "/Users/lini/.gradle/daemon/8.4/com.example.comftyaccess.app-main-68:/layout/dialog_review_details.xml"
+    },
+    {
+        "merged": "/Users/lini/.gradle/daemon/8.4/com.example.comftyaccess.app-mergeDebugResources-65:/layout/spinner_item.xml",
+        "source": "/Users/lini/.gradle/daemon/8.4/com.example.comftyaccess.app-main-68:/layout/spinner_item.xml"
+    },
+    {
+        "merged": "/Users/lini/.gradle/daemon/8.4/com.example.comftyaccess.app-mergeDebugResources-65:/layout/review_row.xml",
+        "source": "/Users/lini/.gradle/daemon/8.4/com.example.comftyaccess.app-main-68:/layout/review_row.xml"
+    },
+    {
+        "merged": "/Users/lini/.gradle/daemon/8.4/com.example.comftyaccess.app-mergeDebugResources-65:/layout/fragment_map.xml",
+        "source": "/Users/lini/.gradle/daemon/8.4/com.example.comftyaccess.app-main-68:/layout/fragment_map.xml"
+    },
+    {
+        "merged": "com.example.comftyaccess.app-mergeDebugResources-65:/layout/review_row.xml",
+        "source": "com.example.comftyaccess.app-main-68:/layout/review_row.xml"
+    },
+    {
+        "merged": "/Users/lini/.gradle/daemon/8.4/com.example.comftyaccess.app-mergeDebugResources-65:/layout/activity_main.xml",
+        "source": "/Users/lini/.gradle/daemon/8.4/com.example.comftyaccess.app-main-68:/layout/activity_main.xml"
+    },
+    {
+        "merged": "/Users/lini/.gradle/daemon/8.4/com.example.comftyaccess.app-mergeDebugResources-65:/layout/fragment_my_profile.xml",
+        "source": "/Users/lini/.gradle/daemon/8.4/com.example.comftyaccess.app-main-68:/layout/fragment_my_profile.xml"
+    }
+]

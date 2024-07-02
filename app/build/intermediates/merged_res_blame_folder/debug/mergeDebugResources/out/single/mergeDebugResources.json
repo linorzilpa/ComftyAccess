@@ -1,0 +1,266 @@
+[
+    {
+        "merged": "/Users/lini/.gradle/daemon/8.4/com.example.comftyaccess.app-debug-66:/mipmap-mdpi_ic_launcher_round.webp.flat",
+        "source": "/Users/lini/.gradle/daemon/8.4/com.example.comftyaccess.app-main-68:/mipmap-mdpi/ic_launcher_round.webp"
+    },
+    {
+        "merged": "/Users/lini/.gradle/daemon/8.4/com.example.comftyaccess.app-debug-66:/mipmap-xhdpi_ic_launcher.webp.flat",
+        "source": "/Users/lini/.gradle/daemon/8.4/com.example.comftyaccess.app-main-68:/mipmap-xhdpi/ic_launcher.webp"
+    },
+    {
+        "merged": "/Users/lini/.gradle/daemon/8.4/com.example.comftyaccess.app-debug-66:/layout_activity_main.xml.flat",
+        "source": "/Users/lini/.gradle/daemon/8.4/com.example.comftyaccess.app-main-68:/layout/activity_main.xml"
+    },
+    {
+        "merged": "/Users/lini/.gradle/daemon/8.4/com.example.comftyaccess.app-debug-66:/mipmap-xxhdpi_ic_launcher.webp.flat",
+        "source": "/Users/lini/.gradle/daemon/8.4/com.example.comftyaccess.app-main-68:/mipmap-xxhdpi/ic_launcher.webp"
+    },
+    {
+        "merged": "/Users/lini/.gradle/daemon/8.4/com.example.comftyaccess.app-debug-66:/mipmap-xxxhdpi_ic_launcher.webp.flat",
+        "source": "/Users/lini/.gradle/daemon/8.4/com.example.comftyaccess.app-main-68:/mipmap-xxxhdpi/ic_launcher.webp"
+    },
+    {
+        "merged": "/Users/lini/.gradle/daemon/8.4/com.example.comftyaccess.app-debug-66:/drawable_baseline_map_24.xml.flat",
+        "source": "/Users/lini/.gradle/daemon/8.4/com.example.comftyaccess.app-main-68:/drawable/baseline_map_24.xml"
+    },
+    {
+        "merged": "/Users/lini/.gradle/daemon/8.4/com.example.comftyaccess.app-debug-66:/drawable_outline_filter_alt_24.xml.flat",
+        "source": "/Users/lini/.gradle/daemon/8.4/com.example.comftyaccess.app-main-68:/drawable/outline_filter_alt_24.xml"
+    },
+    {
+        "merged": "/Users/lini/.gradle/daemon/8.4/com.example.comftyaccess.app-debug-66:/drawable_baseline_star_outline_24.xml.flat",
+        "source": "/Users/lini/.gradle/daemon/8.4/com.example.comftyaccess.app-main-68:/drawable/baseline_star_outline_24.xml"
+    },
+    {
+        "merged": "/Users/lini/.gradle/daemon/8.4/com.example.comftyaccess.app-debug-66:/drawable_help_btn.png.flat",
+        "source": "/Users/lini/.gradle/daemon/8.4/com.example.comftyaccess.app-main-68:/drawable/help_btn.png"
+    },
+    {
+        "merged": "/Users/lini/.gradle/daemon/8.4/com.example.comftyaccess.app-debug-66:/drawable_baseline_add_24.xml.flat",
+        "source": "/Users/lini/.gradle/daemon/8.4/com.example.comftyaccess.app-main-68:/drawable/baseline_add_24.xml"
+    },
+    {
+        "merged": "/Users/lini/.gradle/daemon/8.4/com.example.comftyaccess.app-debug-66:/mipmap-mdpi_ic_launcher.webp.flat",
+        "source": "/Users/lini/.gradle/daemon/8.4/com.example.comftyaccess.app-main-68:/mipmap-mdpi/ic_launcher.webp"
+    },
+    {
+        "merged": "/Users/lini/.gradle/daemon/8.4/com.example.comftyaccess.app-debug-66:/layout_review_row.xml.flat",
+        "source": "/Users/lini/.gradle/daemon/8.4/com.example.comftyaccess.app-main-68:/layout/review_row.xml"
+    },
+    {
+        "merged": "/Users/lini/.gradle/daemon/8.4/com.example.comftyaccess.app-debug-66:/menu_top_nav_menu.xml.flat",
+        "source": "/Users/lini/.gradle/daemon/8.4/com.example.comftyaccess.app-main-68:/menu/top_nav_menu.xml"
+    },
+    {
+        "merged": "/Users/lini/.gradle/daemon/8.4/com.example.comftyaccess.app-debug-66:/drawable-ldpi_ic_launcher_foreground.png.flat",
+        "source": "/Users/lini/.gradle/daemon/8.4/com.example.comftyaccess.app-pngs-61:/drawable-ldpi/ic_launcher_foreground.png"
+    },
+    {
+        "merged": "/Users/lini/.gradle/daemon/8.4/com.example.comftyaccess.app-debug-66:/drawable_baseline_delete_outline_24.xml.flat",
+        "source": "/Users/lini/.gradle/daemon/8.4/com.example.comftyaccess.app-main-68:/drawable/baseline_delete_outline_24.xml"
+    },
+    {
+        "merged": "/Users/lini/.gradle/daemon/8.4/com.example.comftyaccess.app-debug-66:/drawable_baseline_insert_photo_24.xml.flat",
+        "source": "/Users/lini/.gradle/daemon/8.4/com.example.comftyaccess.app-main-68:/drawable/baseline_insert_photo_24.xml"
+    },
+    {
+        "merged": "/Users/lini/.gradle/daemon/8.4/com.example.comftyaccess.app-debug-66:/layout_fragment_sign_up.xml.flat",
+        "source": "/Users/lini/.gradle/daemon/8.4/com.example.comftyaccess.app-main-68:/layout/fragment_sign_up.xml"
+    },
+    {
+        "merged": "/Users/lini/.gradle/daemon/8.4/com.example.comftyaccess.app-debug-66:/layout_fragment_map.xml.flat",
+        "source": "/Users/lini/.gradle/daemon/8.4/com.example.comftyaccess.app-main-68:/layout/fragment_map.xml"
+    },
+    {
+        "merged": "/Users/lini/.gradle/daemon/8.4/com.example.comftyaccess.app-debug-66:/drawable-xhdpi_ic_launcher_foreground.png.flat",
+        "source": "/Users/lini/.gradle/daemon/8.4/com.example.comftyaccess.app-pngs-61:/drawable-xhdpi/ic_launcher_foreground.png"
+    },
+    {
+        "merged": "/Users/lini/.gradle/daemon/8.4/com.example.comftyaccess.app-debug-66:/layout_dialog_review_details.xml.flat",
+        "source": "/Users/lini/.gradle/daemon/8.4/com.example.comftyaccess.app-main-68:/layout/dialog_review_details.xml"
+    },
+    {
+        "merged": "/Users/lini/.gradle/daemon/8.4/com.example.comftyaccess.app-debug-66:/drawable-xxhdpi_ic_launcher_foreground.png.flat",
+        "source": "/Users/lini/.gradle/daemon/8.4/com.example.comftyaccess.app-pngs-61:/drawable-xxhdpi/ic_launcher_foreground.png"
+    },
+    {
+        "merged": "/Users/lini/.gradle/daemon/8.4/com.example.comftyaccess.app-debug-66:/drawable_baseline_settings_24.xml.flat",
+        "source": "/Users/lini/.gradle/daemon/8.4/com.example.comftyaccess.app-main-68:/drawable/baseline_settings_24.xml"
+    },
+    {
+        "merged": "/Users/lini/.gradle/daemon/8.4/com.example.comftyaccess.app-debug-66:/drawable-mdpi_ic_launcher_foreground.png.flat",
+        "source": "/Users/lini/.gradle/daemon/8.4/com.example.comftyaccess.app-pngs-61:/drawable-mdpi/ic_launcher_foreground.png"
+    },
+    {
+        "merged": "/Users/lini/.gradle/daemon/8.4/com.example.comftyaccess.app-debug-66:/layout_activity_connect.xml.flat",
+        "source": "/Users/lini/.gradle/daemon/8.4/com.example.comftyaccess.app-main-68:/layout/activity_connect.xml"
+    },
+    {
+        "merged": "/Users/lini/.gradle/daemon/8.4/com.example.comftyaccess.app-debug-66:/drawable-anydpi-v24_ic_launcher_foreground.xml.flat",
+        "source": "/Users/lini/.gradle/daemon/8.4/com.example.comftyaccess.app-pngs-61:/drawable-anydpi-v24/ic_launcher_foreground.xml"
+    },
+    {
+        "merged": "/Users/lini/.gradle/daemon/8.4/com.example.comftyaccess.app-debug-66:/drawable_baseline_cabin_24.xml.flat",
+        "source": "/Users/lini/.gradle/daemon/8.4/com.example.comftyaccess.app-main-68:/drawable/baseline_cabin_24.xml"
+    },
+    {
+        "merged": "/Users/lini/.gradle/daemon/8.4/com.example.comftyaccess.app-debug-66:/drawable_drop_down_yellow_arrow.png.flat",
+        "source": "/Users/lini/.gradle/daemon/8.4/com.example.comftyaccess.app-main-68:/drawable/drop_down_yellow_arrow.png"
+    },
+    {
+        "merged": "/Users/lini/.gradle/daemon/8.4/com.example.comftyaccess.app-debug-66:/drawable-xxxhdpi_ic_launcher_foreground.png.flat",
+        "source": "/Users/lini/.gradle/daemon/8.4/com.example.comftyaccess.app-pngs-61:/drawable-xxxhdpi/ic_launcher_foreground.png"
+    },
+    {
+        "merged": "/Users/lini/.gradle/daemon/8.4/com.example.comftyaccess.app-debug-66:/mipmap-hdpi_ic_launcher_round.webp.flat",
+        "source": "/Users/lini/.gradle/daemon/8.4/com.example.comftyaccess.app-main-68:/mipmap-hdpi/ic_launcher_round.webp"
+    },
+    {
+        "merged": "/Users/lini/.gradle/daemon/8.4/com.example.comftyaccess.app-debug-66:/drawable_baseline_star_rate_24.xml.flat",
+        "source": "/Users/lini/.gradle/daemon/8.4/com.example.comftyaccess.app-main-68:/drawable/baseline_star_rate_24.xml"
+    },
+    {
+        "merged": "/Users/lini/.gradle/daemon/8.4/com.example.comftyaccess.app-debug-66:/mipmap-xxhdpi_ic_launcher_round.webp.flat",
+        "source": "/Users/lini/.gradle/daemon/8.4/com.example.comftyaccess.app-main-68:/mipmap-xxhdpi/ic_launcher_round.webp"
+    },
+    {
+        "merged": "/Users/lini/.gradle/daemon/8.4/com.example.comftyaccess.app-debug-66:/drawable_outline_account_circle_24.xml.flat",
+        "source": "/Users/lini/.gradle/daemon/8.4/com.example.comftyaccess.app-main-68:/drawable/outline_account_circle_24.xml"
+    },
+    {
+        "merged": "com.example.comftyaccess.app-debug-66:/layout_review_row.xml.flat",
+        "source": "com.example.comftyaccess.app-main-68:/layout/review_row.xml"
+    },
+    {
+        "merged": "/Users/lini/.gradle/daemon/8.4/com.example.comftyaccess.app-debug-66:/layout_dialog_accessibility_needs.xml.flat",
+        "source": "/Users/lini/.gradle/daemon/8.4/com.example.comftyaccess.app-main-68:/layout/dialog_accessibility_needs.xml"
+    },
+    {
+        "merged": "/Users/lini/.gradle/daemon/8.4/com.example.comftyaccess.app-debug-66:/layout_fragment_sign_in.xml.flat",
+        "source": "/Users/lini/.gradle/daemon/8.4/com.example.comftyaccess.app-main-68:/layout/fragment_sign_in.xml"
+    },
+    {
+        "merged": "/Users/lini/.gradle/daemon/8.4/com.example.comftyaccess.app-debug-66:/mipmap-anydpi-v26_ic_launcher.xml.flat",
+        "source": "/Users/lini/.gradle/daemon/8.4/com.example.comftyaccess.app-main-68:/mipmap-anydpi-v26/ic_launcher.xml"
+    },
+    {
+        "merged": "/Users/lini/.gradle/daemon/8.4/com.example.comftyaccess.app-debug-66:/drawable_outline_settings_24.xml.flat",
+        "source": "/Users/lini/.gradle/daemon/8.4/com.example.comftyaccess.app-main-68:/drawable/outline_settings_24.xml"
+    },
+    {
+        "merged": "/Users/lini/.gradle/daemon/8.4/com.example.comftyaccess.app-debug-66:/drawable_ic_launcher_background.xml.flat",
+        "source": "/Users/lini/.gradle/daemon/8.4/com.example.comftyaccess.app-main-68:/drawable/ic_launcher_background.xml"
+    },
+    {
+        "merged": "/Users/lini/.gradle/daemon/8.4/com.example.comftyaccess.app-debug-66:/layout_spinner_item.xml.flat",
+        "source": "/Users/lini/.gradle/daemon/8.4/com.example.comftyaccess.app-main-68:/layout/spinner_item.xml"
+    },
+    {
+        "merged": "/Users/lini/.gradle/daemon/8.4/com.example.comftyaccess.app-debug-66:/layout_fragment_all_reviews.xml.flat",
+        "source": "/Users/lini/.gradle/daemon/8.4/com.example.comftyaccess.app-main-68:/layout/fragment_all_reviews.xml"
+    },
+    {
+        "merged": "/Users/lini/.gradle/daemon/8.4/com.example.comftyaccess.app-debug-66:/drawable_user_pink.png.flat",
+        "source": "/Users/lini/.gradle/daemon/8.4/com.example.comftyaccess.app-main-68:/drawable/user_pink.png"
+    },
+    {
+        "merged": "/Users/lini/.gradle/daemon/8.4/com.example.comftyaccess.app-debug-66:/drawable_textview_border.xml.flat",
+        "source": "/Users/lini/.gradle/daemon/8.4/com.example.comftyaccess.app-main-68:/drawable/textview_border.xml"
+    },
+    {
+        "merged": "/Users/lini/.gradle/daemon/8.4/com.example.comftyaccess.app-debug-66:/menu_bottom_nav_menu.xml.flat",
+        "source": "/Users/lini/.gradle/daemon/8.4/com.example.comftyaccess.app-main-68:/menu/bottom_nav_menu.xml"
+    },
+    {
+        "merged": "/Users/lini/.gradle/daemon/8.4/com.example.comftyaccess.app-debug-66:/layout_fragment_add_review.xml.flat",
+        "source": "/Users/lini/.gradle/daemon/8.4/com.example.comftyaccess.app-main-68:/layout/fragment_add_review.xml"
+    },
+    {
+        "merged": "/Users/lini/.gradle/daemon/8.4/com.example.comftyaccess.app-debug-66:/layout_fragment_filter.xml.flat",
+        "source": "/Users/lini/.gradle/daemon/8.4/com.example.comftyaccess.app-main-68:/layout/fragment_filter.xml"
+    },
+    {
+        "merged": "/Users/lini/.gradle/daemon/8.4/com.example.comftyaccess.app-debug-66:/xml_network_security_config.xml.flat",
+        "source": "/Users/lini/.gradle/daemon/8.4/com.example.comftyaccess.app-main-68:/xml/network_security_config.xml"
+    },
+    {
+        "merged": "/Users/lini/.gradle/daemon/8.4/com.example.comftyaccess.app-debug-66:/mipmap-xxxhdpi_ic_launcher_round.webp.flat",
+        "source": "/Users/lini/.gradle/daemon/8.4/com.example.comftyaccess.app-main-68:/mipmap-xxxhdpi/ic_launcher_round.webp"
+    },
+    {
+        "merged": "/Users/lini/.gradle/daemon/8.4/com.example.comftyaccess.app-debug-66:/font_coda.xml.flat",
+        "source": "/Users/lini/.gradle/daemon/8.4/com.example.comftyaccess.app-main-68:/font/coda.xml"
+    },
+    {
+        "merged": "/Users/lini/.gradle/daemon/8.4/com.example.comftyaccess.app-debug-66:/navigation_connect_nav_graph.xml.flat",
+        "source": "/Users/lini/.gradle/daemon/8.4/com.example.comftyaccess.app-main-68:/navigation/connect_nav_graph.xml"
+    },
+    {
+        "merged": "/Users/lini/.gradle/daemon/8.4/com.example.comftyaccess.app-debug-66:/drawable_baseline_edit_24.xml.flat",
+        "source": "/Users/lini/.gradle/daemon/8.4/com.example.comftyaccess.app-main-68:/drawable/baseline_edit_24.xml"
+    },
+    {
+        "merged": "/Users/lini/.gradle/daemon/8.4/com.example.comftyaccess.app-debug-66:/layout_fragment_filtered_reviews.xml.flat",
+        "source": "/Users/lini/.gradle/daemon/8.4/com.example.comftyaccess.app-main-68:/layout/fragment_filtered_reviews.xml"
+    },
+    {
+        "merged": "/Users/lini/.gradle/daemon/8.4/com.example.comftyaccess.app-debug-66:/xml_data_extraction_rules.xml.flat",
+        "source": "/Users/lini/.gradle/daemon/8.4/com.example.comftyaccess.app-main-68:/xml/data_extraction_rules.xml"
+    },
+    {
+        "merged": "/Users/lini/.gradle/daemon/8.4/com.example.comftyaccess.app-debug-66:/drawable_ic_baseline_logout_24.xml.flat",
+        "source": "/Users/lini/.gradle/daemon/8.4/com.example.comftyaccess.app-main-68:/drawable/ic_baseline_logout_24.xml"
+    },
+    {
+        "merged": "/Users/lini/.gradle/daemon/8.4/com.example.comftyaccess.app-debug-66:/xml_backup_rules.xml.flat",
+        "source": "/Users/lini/.gradle/daemon/8.4/com.example.comftyaccess.app-main-68:/xml/backup_rules.xml"
+    },
+    {
+        "merged": "/Users/lini/.gradle/daemon/8.4/com.example.comftyaccess.app-debug-66:/mipmap-xhdpi_ic_launcher_round.webp.flat",
+        "source": "/Users/lini/.gradle/daemon/8.4/com.example.comftyaccess.app-main-68:/mipmap-xhdpi/ic_launcher_round.webp"
+    },
+    {
+        "merged": "/Users/lini/.gradle/daemon/8.4/com.example.comftyaccess.app-debug-66:/drawable_rounded_background.xml.flat",
+        "source": "/Users/lini/.gradle/daemon/8.4/com.example.comftyaccess.app-main-68:/drawable/rounded_background.xml"
+    },
+    {
+        "merged": "/Users/lini/.gradle/daemon/8.4/com.example.comftyaccess.app-debug-66:/drawable_outline_account_circle_24_2.xml.flat",
+        "source": "/Users/lini/.gradle/daemon/8.4/com.example.comftyaccess.app-main-68:/drawable/outline_account_circle_24_2.xml"
+    },
+    {
+        "merged": "/Users/lini/.gradle/daemon/8.4/com.example.comftyaccess.app-debug-66:/font_coda_extrabold.xml.flat",
+        "source": "/Users/lini/.gradle/daemon/8.4/com.example.comftyaccess.app-main-68:/font/coda_extrabold.xml"
+    },
+    {
+        "merged": "/Users/lini/.gradle/daemon/8.4/com.example.comftyaccess.app-debug-66:/font_font_family.xml.flat",
+        "source": "/Users/lini/.gradle/daemon/8.4/com.example.comftyaccess.app-main-68:/font/font_family.xml"
+    },
+    {
+        "merged": "/Users/lini/.gradle/daemon/8.4/com.example.comftyaccess.app-debug-66:/drawable-hdpi_ic_launcher_foreground.png.flat",
+        "source": "/Users/lini/.gradle/daemon/8.4/com.example.comftyaccess.app-pngs-61:/drawable-hdpi/ic_launcher_foreground.png"
+    },
+    {
+        "merged": "/Users/lini/.gradle/daemon/8.4/com.example.comftyaccess.app-debug-66:/layout_fragment_edit_review.xml.flat",
+        "source": "/Users/lini/.gradle/daemon/8.4/com.example.comftyaccess.app-main-68:/layout/fragment_edit_review.xml"
+    },
+    {
+        "merged": "/Users/lini/.gradle/daemon/8.4/com.example.comftyaccess.app-debug-66:/mipmap-hdpi_ic_launcher.webp.flat",
+        "source": "/Users/lini/.gradle/daemon/8.4/com.example.comftyaccess.app-main-68:/mipmap-hdpi/ic_launcher.webp"
+    },
+    {
+        "merged": "/Users/lini/.gradle/daemon/8.4/com.example.comftyaccess.app-debug-66:/navigation_main_nav_graph.xml.flat",
+        "source": "/Users/lini/.gradle/daemon/8.4/com.example.comftyaccess.app-main-68:/navigation/main_nav_graph.xml"
+    },
+    {
+        "merged": "/Users/lini/.gradle/daemon/8.4/com.example.comftyaccess.app-debug-66:/mipmap-anydpi-v26_ic_launcher_round.xml.flat",
+        "source": "/Users/lini/.gradle/daemon/8.4/com.example.comftyaccess.app-main-68:/mipmap-anydpi-v26/ic_launcher_round.xml"
+    },
+    {
+        "merged": "/Users/lini/.gradle/daemon/8.4/com.example.comftyaccess.app-debug-66:/layout_fragment_my_profile.xml.flat",
+        "source": "/Users/lini/.gradle/daemon/8.4/com.example.comftyaccess.app-main-68:/layout/fragment_my_profile.xml"
+    },
+    {
+        "merged": "/Users/lini/.gradle/daemon/8.4/com.example.comftyaccess.app-debug-66:/layout_fragment_edit_profile.xml.flat",
+        "source": "/Users/lini/.gradle/daemon/8.4/com.example.comftyaccess.app-main-68:/layout/fragment_edit_profile.xml"
+    }
+]

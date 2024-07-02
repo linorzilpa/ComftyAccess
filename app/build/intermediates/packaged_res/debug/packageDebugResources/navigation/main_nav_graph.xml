@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_nav_graph"
+    app:startDestination="@id/allReviewsFragment">
+
+    <fragment
+        android:id="@+id/allReviewsFragment"
+        android:name="com.example.comftyaccess.AllReviewsFragment"
+        android:label="fragment_all_reviews"
+        tools:layout="@layout/fragment_all_reviews" >
+        <action
+            android:id="@+id/action_allReviewsFragment_to_editReviewFragment"
+            app:destination="@id/editReviewFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/myProfileFragment"
+        android:name="com.example.comftyaccess.MyProfileFragment"
+        android:label="fragment_my_profile"
+        tools:layout="@layout/fragment_my_profile" >
+        <argument
+            android:name="email"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_myProfileFragment_to_editProfileFragment"
+            app:destination="@id/editProfileFragment" />
+        <action
+            android:id="@+id/action_myProfileFragment_to_filteredReviewsFragment"
+            app:destination="@id/filteredReviewsFragment" />
+    </fragment>
+    <action android:id="@+id/action_global_myProfileFragment" app:destination="@id/myProfileFragment" /><action android:id="@+id/action_global_allReviewsFragment" app:destination="@id/allReviewsFragment"/>
+    <fragment
+        android:id="@+id/filterFragment"
+        android:name="com.example.comftyaccess.FilterFragment"
+        android:label="fragment_filter"
+        tools:layout="@layout/fragment_filter" >
+        <action
+            android:id="@+id/action_filterFragment_to_filteredReviewsFragment"
+            app:destination="@id/filteredReviewsFragment" />
+    </fragment><action android:id="@+id/action_global_filterFragment" app:destination="@id/filterFragment"/>
+    <fragment
+        android:id="@+id/addReviewFragment"
+        android:name="com.example.comftyaccess.AddReviewFragment"
+        android:label="fragment_add_review"
+        tools:layout="@layout/fragment_add_review" />
+    <fragment
+        android:id="@+id/mapFragment"
+        android:name="com.example.comftyaccess.MapFragment"
+        android:label="fragment_map"
+        tools:layout="@layout/fragment_map" >
+        <action
+            android:id="@+id/action_mapFragment_to_filteredReviewsFragment"
+            app:destination="@id/filteredReviewsFragment" />
+    </fragment><action android:id="@+id/action_global_mapFragment" app:destination="@id/mapFragment"/><action android:id="@+id/action_global_addReviewFragment" app:destination="@id/addReviewFragment"/>
+    <fragment
+        android:id="@+id/editProfileFragment"
+        android:name="com.example.comftyaccess.EditProfileFragment"
+        android:label="fragment_edit_profile"
+        tools:layout="@layout/fragment_edit_profile" />
+    <fragment
+        android:id="@+id/filteredReviewsFragment"
+        android:name="com.example.comftyaccess.FilteredReviewsFragment"
+        android:label="fragment_filtered_reviews"
+        tools:layout="@layout/fragment_filtered_reviews" >
+        <argument
+            android:name="email"
+            app:argType="string" />
+        <argument
+            android:name="accessNeedType"
+            app:argType="string" />
+        <argument
+            android:name="rating"
+            app:argType="string" />
+        <argument
+            android:name="ageRangeType"
+            app:argType="string" />
+        <argument
+            android:name="hotelName"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/editReviewFragment"
+        android:name="com.example.comftyaccess.EditReviewFragment"
+        android:label="fragment_edit_review"
+        tools:layout="@layout/fragment_edit_review" >
+        <argument
+            android:name="pos"
+            app:argType="integer" />
+    </fragment>
+</navigation>
