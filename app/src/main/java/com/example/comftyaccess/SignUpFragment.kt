@@ -31,7 +31,7 @@ class SignUpFragment : Fragment() {
 
     private lateinit var cameraLauncher: ActivityResultLauncher<Void?>
     private lateinit var galleryLauncher: ActivityResultLauncher<String>
-    
+
     override fun onStart() {
         (activity as AppCompatActivity?)!!.supportActionBar!!.title = "Sign up"
         super.onStart()
@@ -40,6 +40,7 @@ class SignUpFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = FragmentSignUpBinding.inflate(inflater, container, false)
+        binding.progressBarSU.visibility = View.GONE
         setupActivityResultLaunchers()
         setupListeners()
         createAccessNeedSpinner()
@@ -106,6 +107,7 @@ class SignUpFragment : Fragment() {
 
     private fun registerUser(email: String, password: String, fullName: String, age: Int, accessNeed: String, imageUrl: String) {
         Log.d("SignUpFragment", "Trying to sign up")
+        binding.progressBarSU.visibility = View.VISIBLE
         firebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener { task ->
             if (task.isSuccessful) {
                 Log.d("SignUpFragment", "User can be created")
@@ -135,6 +137,7 @@ class SignUpFragment : Fragment() {
                 Toast.makeText(context, "Registration failed: ${task.exception?.localizedMessage}", Toast.LENGTH_LONG).show()
                 Log.e("SignUpFragment", "Registration failed", task.exception)
             }
+            binding.progressBarSU.visibility = View.GONE
         }
     }
 

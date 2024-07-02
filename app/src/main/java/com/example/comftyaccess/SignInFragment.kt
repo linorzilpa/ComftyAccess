@@ -21,7 +21,7 @@ class SignInFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentSignInBinding.inflate(inflater, container, false)
-
+        binding.progressBarSI.visibility = View.GONE
         binding.signUpHereBtn.setOnClickListener {
             val action = SignInFragmentDirections.actionSignInFragmentToSignUpFragment()
             findNavController().navigate(action)
@@ -41,6 +41,7 @@ class SignInFragment : Fragment() {
     }
 
     private fun signInUser(email: String, password: String) {
+        binding.progressBarSI.visibility = View.VISIBLE
         auth.signInWithEmailAndPassword(email, password).addOnCompleteListener { task ->
             if (task.isSuccessful) {
                 val i = Intent(activity, MainActivity::class.java)
@@ -49,6 +50,7 @@ class SignInFragment : Fragment() {
             } else {
                 Toast.makeText(context, "Authentication failed: ${task.exception?.message}", Toast.LENGTH_LONG).show()
             }
+            binding.progressBarSI.visibility = View.GONE
         }
     }
 

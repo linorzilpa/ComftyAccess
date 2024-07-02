@@ -1,5 +1,6 @@
 package com.example.comftyaccess
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -8,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
+import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
@@ -45,7 +47,6 @@ class FilteredReviewsFragment: Fragment() {
                 email = "Rather not to mention"
             rating = it.getString("rating")
             hotelName= it.getString("hotelName")
-
         }
         binding = FragmentFilteredReviewsBinding.inflate(inflater, container, false)
         reloadData()
@@ -78,9 +79,11 @@ class FilteredReviewsFragment: Fragment() {
         })
     }
 
+    @SuppressLint("MissingInflatedId")
     fun showDialogWithReviewDetails(review: Review, pos: Int) {
         val dialogView = layoutInflater.inflate(R.layout.dialog_review_details, null)
 
+        dialogView.findViewById<ProgressBar>(R.id.progressBarRD).visibility = View.VISIBLE
         // Binding TextViews with review details
         dialogView.findViewById<TextView>(R.id.tv_edit_hotelname_review_details).text = review.hotelName
         dialogView.findViewById<TextView>(R.id.tv_edit_accessNeed_review_details).text = review.accessNeed
@@ -132,6 +135,7 @@ class FilteredReviewsFragment: Fragment() {
             } else {
                 avatarImg.setImageResource(R.drawable.ic_launcher_foreground)
             }
+            dialogView.findViewById<ProgressBar>(R.id.progressBarRD).visibility = View.GONE
         } ?: avatarImg.setImageResource(R.drawable.ic_launcher_foreground)
 
         // Create and show the AlertDialog
@@ -208,7 +212,36 @@ class FilteredReviewsFragment: Fragment() {
             for (i in 0 until re.rate) {
                 stars[i].setImageResource(R.drawable.baseline_star_rate_24)
             }
-            //add image binding
+
+            re.img?.let { imageUrl ->
+                if (imageUrl.isNotBlank()) {
+                    val picasso = Picasso.Builder(MyApplication.getMyContext())
+                        .listener { _, uri, exception ->
+                            Log.e("ReviewBinding", "Error loading image from $uri", exception)
+                        }
+                        .build()
+                    picasso.load(imageUrl)
+                        .placeholder(R.drawable.ic_launcher_foreground)
+                        .error(R.drawable.ic_launcher_foreground)  // Setting error placeholder
+                        .into(avatarImg, object : com.squareup.picasso.Callback {
+                            override fun onSuccess() {
+                                Log.d("ReviewBinding", "Image loaded successfully: $imageUrl")
+                            }
+
+                            override fun onError(e: Exception?) {
+                                Log.e("ReviewBinding", "Picasso load error: ", e)
+                            }
+                        })
+                } else {
+                    avatarImg.setImageResource(R.drawable.ic_launcher_foreground)
+                    Log.d("ReviewBinding", "No image provided, setting default image")
+                }
+            } ?: run {
+                avatarImg.setImageResource(R.drawable.ic_launcher_foreground)
+                Log.d("ReviewBinding", "Image URL is null, setting default image")
+            }
+
+            Log.d("ReviewBinding", "Review binding completed")
         }
     }
 

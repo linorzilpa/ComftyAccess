@@ -1,3 +1,4 @@
+
 package com.example.comftyaccess
 
 import HotelViewModel
@@ -44,9 +45,9 @@ class EditReviewFragment : Fragment() {
         binding = FragmentEditReviewBinding.inflate(inflater, container, false)
         viewModel = ViewModelProvider(this).get(EditReviewViewModel::class.java)
         hotelViewModel = ViewModelProvider(this).get(HotelViewModel::class.java)
+        binding.progressBarER.visibility = View.GONE
 
         setupActivityResultLaunchers()
-
         setupStarRating()
 
         binding.btCancelEditreview.setOnClickListener {
@@ -75,6 +76,7 @@ class EditReviewFragment : Fragment() {
     private fun loadReviewData() {
         val position: Int = arguments?.getInt("pos") ?: return
         selectedReview = viewModel.data.value?.get(position)
+        binding.progressBarER.visibility = View.VISIBLE
         selectedReview?.let { review ->
             binding.emailTvEditReview.text = review.email
             binding.descriptionEditTextEditReview.setText(review.description)
@@ -88,6 +90,7 @@ class EditReviewFragment : Fragment() {
                     .into(binding.ivEditReview)
             }
             updateStarRating(review.rate)
+            binding.progressBarER.visibility = View.GONE
         }
     }
 
@@ -176,7 +179,7 @@ class EditReviewFragment : Fragment() {
         selectedReview!!.description = binding.descriptionEditTextEditReview.text.toString()
         selectedReview!!.email = binding.emailTvEditReview.text.toString()
         selectedReview!!.rate = calculateRating()
-
+        binding.progressBarER.visibility = View.VISIBLE
         if (isAvatarSelected) {
             (binding.ivEditReview.drawable as? BitmapDrawable)?.let { drawable ->
                 val bitmap = drawable.bitmap
@@ -189,6 +192,7 @@ class EditReviewFragment : Fragment() {
                         Log.d("EditReviewFragment", "Review replaced with img")
                         findNavController().navigateUp()  // Navigate up in the navigation stack
                     }
+                    binding.progressBarER.visibility = View.GONE
                 }
             } ?: Log.e("EditReviewFragment", "Failed to cast drawable to BitmapDrawable")
         } else{
@@ -197,6 +201,7 @@ class EditReviewFragment : Fragment() {
                     Toast.makeText(requireContext(), "Review replaced!", Toast.LENGTH_LONG).show()
                     Log.d("EditReviewFragment", "Review replaced without img")
                     findNavController().navigateUp()  // Navigate up in the navigation stack
+                    binding.progressBarER.visibility = View.GONE
                 }
             }
         }
@@ -204,4 +209,3 @@ class EditReviewFragment : Fragment() {
     }
 
 }
-

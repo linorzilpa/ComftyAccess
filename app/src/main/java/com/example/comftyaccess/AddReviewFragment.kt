@@ -43,7 +43,6 @@ class AddReviewFragment : Fragment() {
         (activity as AppCompatActivity?)!!.supportActionBar!!.title = "Add review"
         super.onStart()
     }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -51,6 +50,7 @@ class AddReviewFragment : Fragment() {
         // Inflate the layout for this fragment
         binding = FragmentAddReviewBinding.inflate(inflater, container, false)
         hotelViewModel = ViewModelProvider(this).get(HotelViewModel::class.java)
+        binding.progressBarAR.visibility = View.GONE
 
         if (auth.currentUser == null) {
             showLoginDialog()
@@ -61,6 +61,7 @@ class AddReviewFragment : Fragment() {
             setupStarRating()
             email = auth.getCurrentUser()?.getEmail().toString()
             binding.emailTvAddReview.setText(email)
+            binding.progressBarAR.visibility = View.VISIBLE
             hotelViewModel.loadHotels { hotels ->
                 Log.d("AddReviewFragment", "Hotels loaded: ${hotels.size}")
                 if (hotels.isNotEmpty()) {
@@ -70,6 +71,7 @@ class AddReviewFragment : Fragment() {
                         adapter.notifyDataSetChanged()
                     }
                 }
+                binding.progressBarAR.visibility = View.GONE
             }
 
         }
@@ -84,6 +86,10 @@ class AddReviewFragment : Fragment() {
             } else {
                 addReview(description, hotelName, rate)
             }
+        }
+
+        binding.btCancelReview.setOnClickListener {
+            findNavController().navigateUp()
         }
 
         return binding.root
@@ -112,6 +118,7 @@ class AddReviewFragment : Fragment() {
 
     @SuppressLint("SuspiciousIndentation")
     private fun addReview(description: String, hotelName: String, rate: Int) {
+        binding.progressBarAR.visibility = View.VISIBLE
         Model.instance.getAllUsers { users ->
             val user = users?.let { Model.instance.getUserByEmail(it, email) }
             if (user != null) {
@@ -154,6 +161,7 @@ class AddReviewFragment : Fragment() {
                 Toast.makeText(requireContext(), "Failed to add review: User not found", Toast.LENGTH_LONG).show()
                 findNavController().navigateUp()  // Navigate up in the navigation stack
             }
+            binding.progressBarAR.visibility = View.GONE
         }
     }
 

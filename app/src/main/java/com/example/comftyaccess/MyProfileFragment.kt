@@ -43,7 +43,7 @@ class MyProfileFragment : Fragment() {
         if (firebaseAuth.currentUser == null) {
             showLoginDialog()
         }
-
+        binding.progressBarMyProf.visibility = View.GONE
         bindProfile()
         binding.myReviewsMyprofileBt.setOnClickListener {
             val action = MyProfileFragmentDirections.actionMyProfileFragmentToFilteredReviewsFragment(
@@ -72,6 +72,7 @@ class MyProfileFragment : Fragment() {
     private fun bindProfile() {
         val userEmail = firebaseAuth.currentUser?.email
         if (userEmail != null) {
+            binding.progressBarMyProf.visibility = View.VISIBLE
             Model.instance.getAllUsers { users ->
                 // This callback might be called from a background thread, so switch to the main thread
                     val user = Model.instance.getUserByEmail(users!!, userEmail)
@@ -95,7 +96,7 @@ class MyProfileFragment : Fragment() {
 
 
                     }
-
+                binding.progressBarMyProf.visibility = View.GONE
                 }
             }
     }

@@ -35,6 +35,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = FragmentMapBinding.inflate(inflater, container, false)
+        binding.progressBarMap.visibility = View.GONE
         Log.d("MapFragment", "View created")
         return binding.root
     }
@@ -49,6 +50,8 @@ class MapFragment : Fragment(), OnMapReadyCallback {
     override fun onMapReady(googleMap: GoogleMap) {
         this.googleMap = googleMap
         Log.d("MapFragment", "Map is ready")
+        binding.progressBarMap.visibility = View.VISIBLE
+
         allReviewsViewModel.data.observe(viewLifecycleOwner) { reviews ->
             hotelViewModel.loadHotels { hotels ->
                 val reviewedHotels = hotels.filter { hotel ->
@@ -56,6 +59,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
                 }
                 addHotelsToMap(reviewedHotels)
             }
+            binding.progressBarMap.visibility = View.GONE
         }
     }
 
@@ -65,6 +69,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
             googleMap.addMarker(MarkerOptions().position(location).title(hotel.name))
         }
         if (hotels.isNotEmpty()) {
+          //move the map according to the first hotel
             val firstHotel = hotels.first()
             val location = LatLng(firstHotel.latitude, firstHotel.longitude)
             googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 10.0f))
