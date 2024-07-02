@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.findNavController
 import com.example.comftyaccess.databinding.FragmentAllReviewsBinding
 import com.example.comftyaccess.databinding.FragmentMyProfileBinding
@@ -23,6 +24,11 @@ class MyProfileFragment : Fragment() {
 
     private lateinit var binding: FragmentMyProfileBinding
     private val firebaseAuth: FirebaseAuth by lazy { FirebaseAuth.getInstance() }
+
+    override fun onStart() {
+        (activity as AppCompatActivity?)!!.supportActionBar!!.title = "My profile"
+        super.onStart()
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
