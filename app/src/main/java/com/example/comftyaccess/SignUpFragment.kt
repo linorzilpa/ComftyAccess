@@ -20,33 +20,52 @@ import com.example.comftyaccess.model.Model
 import com.example.comftyaccess.model.User
 import com.google.firebase.auth.FirebaseAuth
 
-
 class SignUpFragment : Fragment() {
-
+    // View binding for the fragment layout
     private lateinit var binding: FragmentSignUpBinding
+
+    // List of access needs options from the model
     private val accessNeedsOptions = Model.accessNeedsOptions
+
+    // Firebase authentication instance
     private val firebaseAuth: FirebaseAuth by lazy { FirebaseAuth.getInstance() }
+
+    // Flags to track if an avatar is selected and the selected access need type
     private var isAvatarSelected = false
     private var accessNeedType: String? = null
 
+    // Launchers for taking a picture and selecting an image from the gallery
     private lateinit var cameraLauncher: ActivityResultLauncher<Void?>
     private lateinit var galleryLauncher: ActivityResultLauncher<String>
 
+    // Set the action bar title when the fragment starts
     override fun onStart() {
         (activity as AppCompatActivity?)!!.supportActionBar!!.title = "Sign up"
         super.onStart()
     }
 
+    // Inflate the fragment's layout and initialize necessary components
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
+    ): View {
         binding = FragmentSignUpBinding.inflate(inflater, container, false)
+
+        // Hide the progress bar initially
         binding.progressBarSU.visibility = View.GONE
+
+        // Set up the activity result launchers
         setupActivityResultLaunchers()
+
+        // Set up the button click listeners
         setupListeners()
+
+        // Create and configure the access need spinner
         createAccessNeedSpinner()
+
         return binding.root
     }
 
+    // Create and configure the access need spinner
     private fun createAccessNeedSpinner() {
         val adapter = ArrayAdapter(requireContext(), R.layout.spinner_item, accessNeedsOptions)
         binding.accessNeedSpinner.adapter = adapter
@@ -59,6 +78,7 @@ class SignUpFragment : Fragment() {
         }
     }
 
+    // Set up the activity result launchers for the camera and gallery
     private fun setupActivityResultLaunchers() {
         cameraLauncher = registerForActivityResult(ActivityResultContracts.TakePicturePreview()) { bitmap ->
             bitmap?.let {
@@ -74,6 +94,7 @@ class SignUpFragment : Fragment() {
             }
         }
 
+        // Set up the button click listeners for camera and gallery
         binding.btnCamera.setOnClickListener {
             cameraLauncher.launch(null)
         }
@@ -83,6 +104,7 @@ class SignUpFragment : Fragment() {
         }
     }
 
+    // Set up the button click listeners for sign up and navigating to sign in
     private fun setupListeners() {
         binding.signUpBtn.setOnClickListener {
             val fullName = binding.fullNameEditText.text.toString()
@@ -93,11 +115,9 @@ class SignUpFragment : Fragment() {
 
             if (email.isNotEmpty() && password.isNotEmpty() && fullName.isNotEmpty()) {
                 registerUser(email, password, fullName, age, accessNeed, "")
-
             } else {
                 Toast.makeText(context, "Please fill all required fields", Toast.LENGTH_SHORT).show()
             }
-
         }
 
         binding.signInHereIBtn.setOnClickListener {
@@ -105,9 +125,11 @@ class SignUpFragment : Fragment() {
         }
     }
 
+    // Register the user with the provided details
     private fun registerUser(email: String, password: String, fullName: String, age: Int, accessNeed: String, imageUrl: String) {
         Log.d("SignUpFragment", "Trying to sign up")
         binding.progressBarSU.visibility = View.VISIBLE
+
         firebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener { task ->
             if (task.isSuccessful) {
                 Log.d("SignUpFragment", "User can be created")
@@ -140,5 +162,4 @@ class SignUpFragment : Fragment() {
             binding.progressBarSU.visibility = View.GONE
         }
     }
-
 }

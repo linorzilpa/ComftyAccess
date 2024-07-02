@@ -11,11 +11,16 @@ import kotlinx.coroutines.launch
 
 class Model {
 
+    // Local database repository instance
     private val localDb: AppLocalDBRepository = AppLocalDB.appLocalDBRepository
+
+    // Firebase model instance
     private val firebaseModel: FireBaseModel = FireBaseModel()
+
+    // LiveData list of reviews
     private var reviewsList: LiveData<List<Review>>? = null
 
-
+    // Companion object for singleton pattern and static properties
     companion object {
         val accessNeedsOptions = listOf(
             "Do not want to share",
@@ -40,41 +45,47 @@ class Model {
         val instance: Model by lazy { Model() }
     }
 
+    // Listener interface for callbacks
     fun interface Listener<T> {
         fun onComplete(data: T?)
     }
 
+    // Listener interface for void callbacks
     fun interface ListenerVoid {
         fun onComplete()
     }
 
+    // Enum for loading state
     enum class LoadingState {
         LOADING,
         NOT_LOADING
     }
 
+    // MutableLiveData for the loading state of reviews list
     val reviewsListLoadingState = MutableLiveData<LoadingState>().apply {
         value = LoadingState.NOT_LOADING
     }
 
+    // Add a new user to the database
     fun addUser(user: User, listener: ListenerVoid) {
         CoroutineScope(Dispatchers.IO).launch {
             firebaseModel.addUser(user) { listener.onComplete() }
         }
     }
 
-
-
+    // Fetch all users from the database
     fun getAllUsers(callback: Listener<List<User>>) {
         CoroutineScope(Dispatchers.IO).launch {
             firebaseModel.getAllUsers(callback)
         }
     }
 
+    // Get a user by email from a list of users
     fun getUserByEmail(users: List<User>, email: String): User? {
         return users.firstOrNull { it.email == email }
     }
 
+    // Get all reviews as LiveData
     fun getAllReviews(): LiveData<List<Review>> {
         if (reviewsList == null) {
             reviewsList = localDb.reviewDao().getAllReviews()
@@ -83,69 +94,75 @@ class Model {
         return reviewsList!!
     }
 
+    // Refresh all reviews from the database
     @SuppressLint("SuspiciousIndentation")
     fun refreshAllReviews() {
         reviewsListLoadingState.postValue(LoadingState.LOADING)
         val localLastUpdate = Review.getLocalLastUpdate()
-            firebaseModel.getAllReviewsSince(localLastUpdate) { list ->
-                CoroutineScope(Dispatchers.IO).launch {
-                        if (list != null) {
-                            Log.d("Model", "Firebase returned: ${list.size}")
-                        }
-                        var time = localLastUpdate
-                    if (list != null) {
-                        list.forEach { review ->
-                            localDb.reviewDao().insertAll(review)
-                            if (time < review.lastUpdated!!) {
-                                time = review.lastUpdated!!
-                            }
-                        }
-                    }
-                    Review.setLocalLastUpdate(time)
-                    reviewsListLoadingState.postValue(LoadingState.NOT_LOADING)
+        firebaseModel.getAllReviewsSince(localLastUpdate) { list ->
+            CoroutineScope(Dispatchers.IO).launch {
+                if (list != null) {
+                    Log.d("Model", "Firebase returned: ${list.size}")
                 }
+                var time = localLastUpdate
+                list?.forEach { review ->
+                    localDb.reviewDao().insertAll(review)
+                    if (time < review.lastUpdated!!) {
+                        time = review.lastUpdated!!
+                    }
+                }
+                Review.setLocalLastUpdate(time)
+                reviewsListLoadingState.postValue(LoadingState.NOT_LOADING)
             }
-
+        }
     }
 
-    //**********************************************Reviews***************************************
+    // Generate a unique ID for a new review
     fun generateID(l: LiveData<List<Review>>?): Int {
         var maxID = 0
         return if (l == null) {
             maxID
         } else {
-            for (r in l.getValue()!!) {
-                if (r.reviewId > maxID) {
-                    maxID = r.reviewId
+            l.value?.forEach { review ->
+                if (review.reviewId > maxID) {
+                    maxID = review.reviewId
                 }
             }
             maxID + 1
         }
     }
 
-
-
+    // Add a new review to the database
     fun addReview(review: Review, listener: ListenerVoid) {
-            firebaseModel.addReview(review) {
-                refreshAllReviews()
-                listener.onComplete()
-            }
+        firebaseModel.addReview(review) {
+            refreshAllReviews()
+            listener.onComplete()
+        }
     }
 
-
+    // Get reviews created by a specific user
     fun getMyReviews(all: List<Review>, email: String): List<Review> {
         return all.filter { it.email == email }
     }
 
+    // Upload an image to Firebase Storage
     fun uploadImage(name: String, bitmap: Bitmap, listener: Listener<String>) {
         CoroutineScope(Dispatchers.IO).launch {
             firebaseModel.uploadImage(name, bitmap, listener)
         }
     }
 
-    fun getFilterReviews(reviews: List<Review>?, accessNeedType: String?, ageRangeType: String?, email: String?, rating: String?, hotelName: String?): List<Review> {
+    // Filter reviews based on multiple criteria
+    fun getFilterReviews(
+        reviews: List<Review>?,
+        accessNeedType: String?,
+        ageRangeType: String?,
+        email: String?,
+        rating: String?,
+        hotelName: String?
+    ): List<Review> {
         Log.d("FilterDebug", "Starting filter process...")
-        Log.d("FilterDebug", "Filter Parameters: AccessNeedType='$accessNeedType', AgeRangeType='$ageRangeType', Email='$email', Rating='$rating' , Hotel Name= '$hotelName'" )
+        Log.d("FilterDebug", "Filter Parameters: AccessNeedType='$accessNeedType', AgeRangeType='$ageRangeType', Email='$email', Rating='$rating', Hotel Name='$hotelName'")
 
         val filteredReviews = reviews?.filter { review ->
             val byAccessNeed = accessNeedType?.takeUnless { it == "Rather not to mention" }?.let { review.accessNeed == it } ?: true
@@ -154,9 +171,8 @@ class Model {
             val byRating = rating?.takeUnless { it == "Rather not to mention" }?.let { review.rate.toString() == it } ?: true
             val byHotelName = hotelName?.takeUnless { it == "Rather not to mention" }?.let { review.hotelName == it } ?: true
 
-
             // Debug log to check which reviews are passing the filters
-            Log.d("FilterDebug", "Review: ${review.hotelName}, AccessNeed: ${review.accessNeed}, Age: ${review.age}, Email: ${review.email}, Rate: ${review.rate}, Hotel Name= '$hotelName' Matches: ${byAccessNeed && byAgeRange && byEmail && byRating}")
+            Log.d("FilterDebug", "Review: ${review.hotelName}, AccessNeed: ${review.accessNeed}, Age: ${review.age}, Email: ${review.email}, Rate: ${review.rate}, Hotel Name='$hotelName' Matches: ${byAccessNeed && byAgeRange && byEmail && byRating && byHotelName}")
 
             byAccessNeed && byAgeRange && byEmail && byRating && byHotelName
         } ?: emptyList()
@@ -165,6 +181,7 @@ class Model {
         return filteredReviews
     }
 
+    // Helper function to check if an age matches a given age range
     private fun ageRangeMatches(age: Int, ageRange: String): Boolean {
         return when (ageRange) {
             "18-30" -> age in 18..30
@@ -175,6 +192,4 @@ class Model {
             else -> false
         }
     }
-
-
 }
