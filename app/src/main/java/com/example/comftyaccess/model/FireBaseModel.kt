@@ -19,6 +19,7 @@ class FireBaseModel {
     // Firebase Storage instance
     private val storage = FirebaseStorage.getInstance()
 
+
     // Fetch all reviews updated since a given timestamp
     fun getAllReviewsSince(since: Long, callback: Model.Listener<List<Review>>) {
         db.collection(Review.COLLECTION)
@@ -34,6 +35,7 @@ class FireBaseModel {
                 }
                 callback.onComplete(list)
             }
+
     }
 
     // Add a new review to the Firestore database
@@ -43,6 +45,7 @@ class FireBaseModel {
                 listener.onComplete()
             }
     }
+
 
     // Fetch all users from the Firestore database
     fun getAllUsers(callback: Model.Listener<List<User>>) {

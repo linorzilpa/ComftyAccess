@@ -18,4 +18,7 @@ interface ReviewDao {
     //onConflict= if the review is already exist with the same id, it will update it.
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertAll(vararg reviews: Review)
+
+    @Query("DELETE FROM reviews WHERE reviewId = :reviewId")
+    fun deleteById(reviewId: String)
 }

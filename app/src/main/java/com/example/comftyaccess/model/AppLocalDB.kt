@@ -9,7 +9,7 @@ import com.example.comftyaccess.model.Review
 
 
 
-@Database(entities = [Review::class], version = 1, exportSchema = false)
+@Database(entities = [Review::class], version = 2, exportSchema = false)
 abstract class AppLocalDBRepository : RoomDatabase() {
     abstract fun reviewDao(): ReviewDao
 }
@@ -20,7 +20,7 @@ object AppLocalDB {
         Room.databaseBuilder(
             context,
             AppLocalDBRepository::class.java,
-            "comftyAccessdb16.db"
+            "comftyAccessdb.db"
         ).fallbackToDestructiveMigration().build()
     }
 }

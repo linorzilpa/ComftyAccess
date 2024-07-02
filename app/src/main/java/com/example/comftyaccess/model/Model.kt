@@ -8,6 +8,7 @@ import androidx.lifecycle.MutableLiveData
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class Model {
 
@@ -106,7 +107,11 @@ class Model {
                 }
                 var time = localLastUpdate
                 list?.forEach { review ->
-                    localDb.reviewDao().insertAll(review)
+                    if (!review.deleted) {
+                        localDb.reviewDao().insertAll(review)
+                    } else {
+                        localDb.reviewDao().deleteById(review.reviewId.toString())
+                    }
                     if (time < review.lastUpdated!!) {
                         time = review.lastUpdated!!
                     }
@@ -116,6 +121,7 @@ class Model {
             }
         }
     }
+
 
     // Generate a unique ID for a new review
     fun generateID(l: LiveData<List<Review>>?): Int {
@@ -140,10 +146,20 @@ class Model {
         }
     }
 
-    // Get reviews created by a specific user
-    fun getMyReviews(all: List<Review>, email: String): List<Review> {
-        return all.filter { it.email == email }
+    // Delete a new review to the database
+    fun deleteReview(review: Review, listener: ListenerVoid) {
+        firebaseModel.addReview(review) {
+            CoroutineScope(Dispatchers.IO).launch {
+                localDb.reviewDao().deleteById(review.reviewId.toString())
+                refreshAllReviews() // Ensure the list is refreshed after deletion
+
+                withContext(Dispatchers.Main) {
+                    listener.onComplete()
+                }
+            }
+        }
     }
+
 
     // Upload an image to Firebase Storage
     fun uploadImage(name: String, bitmap: Bitmap, listener: Listener<String>) {

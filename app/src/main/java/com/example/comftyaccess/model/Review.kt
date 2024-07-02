@@ -18,7 +18,8 @@ data class Review(
     var accessNeed: String,
     var img: String,
     var description: String,
-    var lastUpdated: Long? = null
+    var lastUpdated: Long? = null,
+    var deleted: Boolean = false // New field to track deletion status
 ) {
     init {
         email = email.lowercase(Locale.getDefault()) // Normalize the email to lowercase
@@ -42,7 +43,7 @@ data class Review(
         const val COLLECTION = "reviews"
         const val LAST_UPDATED = "lastUpdated"
         const val LOCAL_LAST_UPDATED = "reviews_local_last_update"
-
+        const val DELETED = "deleted"
 
         fun fromJson(json: Map<String, Any>): Review {
             val reviewId = (json[REVIEW_ID] as Number).toInt()
@@ -54,29 +55,28 @@ data class Review(
             val img = json[IMG] as String
             val description = json[DESCRIPTION] as String
             val lastUpdated = (json[LAST_UPDATED] as Timestamp?)?.seconds
-            return Review(reviewId, hotelName, email, rate, age, accessNeed, img, description, lastUpdated)
+            val deleted = json[DELETED] as Boolean? ?: false // Handle deleted field
+            return Review(reviewId, hotelName, email, rate, age, accessNeed, img, description, lastUpdated, deleted)
         }
-
-
 
         fun getLocalLastUpdate(): Long {
             val sharedPref = MyApplication.getMyContext().getSharedPreferences("TAG", Context.MODE_PRIVATE)
             return sharedPref.getLong(LOCAL_LAST_UPDATED, 0)
         }
 
-        fun setLocalLastUpdate( time: Long) {
+        fun setLocalLastUpdate(time: Long) {
             val sharedPref = MyApplication.getMyContext().getSharedPreferences("TAG", Context.MODE_PRIVATE)
             with(sharedPref.edit()) {
                 putLong(LOCAL_LAST_UPDATED, time)
                 commit()
             }
         }
-
     }
 
     fun generateID() {
         reviewId = Model.instance.generateID(Model.instance.getAllReviews())
     }
+
     fun toJson(): Map<String, Any> = hashMapOf(
         REVIEW_ID to reviewId,
         HOTEL_NAME to hotelName,
@@ -86,9 +86,7 @@ data class Review(
         ACCESS_NEED to accessNeed,
         IMG to img,
         DESCRIPTION to description,
-        LAST_UPDATED to FieldValue.serverTimestamp()
+        LAST_UPDATED to FieldValue.serverTimestamp(),
+        DELETED to deleted // Add deleted field to JSON
     )
-
-
-
 }

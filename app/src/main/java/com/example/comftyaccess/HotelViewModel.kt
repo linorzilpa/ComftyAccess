@@ -49,7 +49,7 @@ class HotelViewModel : ViewModel() {
      */
     private suspend fun fetchHotels(): List<Hotel> {
         val url = URL("https://test.api.amadeus.com/v1/reference-data/locations/hotels/by-city?cityCode=NYC&radius=5&radiusUnit=KM&hotelSource=ALL")
-        val accessToken = "YcQYcC1VyIIpb8YGSDU53cGRqy5w"  // Placeholder for securely fetched token
+        val accessToken = "1NRyQySZdcMNHiuR4hXp7uF3m9MB"  // Placeholder for securely fetched token
         val connection = url.openConnection() as HttpsURLConnection
         connection.apply {
             requestMethod = "GET"
