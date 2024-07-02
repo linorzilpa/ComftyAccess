@@ -27,39 +27,40 @@ import com.example.comftyaccess.databinding.FragmentSignInBinding
 import com.example.comftyaccess.model.Model
 import com.example.comftyaccess.model.Review
 import com.example.comftyaccess.model.User
-
 import com.google.firebase.auth.FirebaseAuth
 
 class AddReviewFragment : Fragment() {
     private lateinit var binding: FragmentAddReviewBinding
     private val auth: FirebaseAuth by lazy { FirebaseAuth.getInstance() }
-    private var email= ""
+    private var email = ""
     private lateinit var cameraLauncher: ActivityResultLauncher<Void?>
     private lateinit var galleryLauncher: ActivityResultLauncher<String>
     private var isAvatarSelected = false
     private lateinit var hotelViewModel: HotelViewModel
 
+    // Set the action bar title when the fragment starts
     override fun onStart() {
         (activity as AppCompatActivity?)!!.supportActionBar!!.title = "Add review"
         super.onStart()
     }
+
+    // Inflate the fragment's layout and initialize necessary components
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         binding = FragmentAddReviewBinding.inflate(inflater, container, false)
         hotelViewModel = ViewModelProvider(this).get(HotelViewModel::class.java)
         binding.progressBarAR.visibility = View.GONE
 
+        // Check if the user is logged in
         if (auth.currentUser == null) {
             showLoginDialog()
-        }
-        else{
-            //if the user is logged in\
+        } else {
+            // If the user is logged in, set up various UI components and load hotel data
             setupActivityResultLaunchers()
             setupStarRating()
-            email = auth.getCurrentUser()?.getEmail().toString()
+            email = auth.currentUser?.email.toString()
             binding.emailTvAddReview.setText(email)
             binding.progressBarAR.visibility = View.VISIBLE
             hotelViewModel.loadHotels { hotels ->
@@ -73,9 +74,9 @@ class AddReviewFragment : Fragment() {
                 }
                 binding.progressBarAR.visibility = View.GONE
             }
-
         }
 
+        // Handle the Add Review button click event
         binding.btAddReview.setOnClickListener {
             val description = binding.descriptionEditTextAddReview.text?.toString() ?: ""
             val hotelName = binding.hotelNameSpinnerAddReview.selectedItem?.toString() ?: ""
@@ -88,6 +89,7 @@ class AddReviewFragment : Fragment() {
             }
         }
 
+        // Handle the Cancel button click event
         binding.btCancelReview.setOnClickListener {
             findNavController().navigateUp()
         }
@@ -95,7 +97,7 @@ class AddReviewFragment : Fragment() {
         return binding.root
     }
 
-
+    // Show a dialog prompting the user to log in if they are not authenticated
     private fun showLoginDialog() {
         context?.let {
             AlertDialog.Builder(it)
@@ -110,12 +112,12 @@ class AddReviewFragment : Fragment() {
                     findNavController().navigateUp()  // Navigate up in the navigation stack
                     dialog.dismiss()
                 }
-
                 .setCancelable(false)  // Prevent dialog from being dismissed on back press
                 .show()
         }
     }
 
+    // Add a review with the provided description, hotel name, and rating
     @SuppressLint("SuspiciousIndentation")
     private fun addReview(description: String, hotelName: String, rate: Int) {
         binding.progressBarAR.visibility = View.VISIBLE
@@ -126,21 +128,21 @@ class AddReviewFragment : Fragment() {
                 val accessNeed = user.accessNeed ?: "Default Access Need"
                 val age = user.age
                 val newReview = Review(
-                        hotelName = hotelName,
-                        email = email,
-                        rate = rate,
-                        age = age,
-                        accessNeed = accessNeed,
-                        img = "",
-                        description = description
-                    )
-                    newReview.generateID()
+                    hotelName = hotelName,
+                    email = email,
+                    rate = rate,
+                    age = age,
+                    accessNeed = accessNeed,
+                    img = "",
+                    description = description
+                )
+                newReview.generateID()
                 if (isAvatarSelected) {
                     (binding.ivAddReview.drawable as? BitmapDrawable)?.let { drawable ->
                         val bitmap = drawable.bitmap
                         Model.instance.uploadImage(newReview.reviewId.toString(), bitmap) { url ->
-                            newReview.img=url!!
-                            Log.d("AddReviewFragment", "Review img url ${newReview.img.toString()}")
+                            newReview.img = url!!
+                            Log.d("AddReviewFragment", "Review img url ${newReview.img}")
 
                             Model.instance.addReview(newReview) {
                                 Toast.makeText(requireContext(), "Review added!", Toast.LENGTH_LONG).show()
@@ -149,7 +151,7 @@ class AddReviewFragment : Fragment() {
                             }
                         }
                     } ?: Log.e("AddReviewFragment", "Failed to cast drawable to BitmapDrawable")
-                } else{
+                } else {
                     Model.instance.addReview(newReview) {
                         Toast.makeText(requireContext(), "Review added!", Toast.LENGTH_LONG).show()
                         Log.d("AddReviewFragment", "Review inserted without img")
@@ -165,7 +167,7 @@ class AddReviewFragment : Fragment() {
         }
     }
 
-
+    // Get the selected rating based on the filled stars
     private fun getSelectedRate(): Int {
         val stars = arrayOf(
             binding.rowStar1AddReview,
@@ -184,7 +186,7 @@ class AddReviewFragment : Fragment() {
         return rate
     }
 
-
+    // Set up the star rating click listeners
     private fun setupStarRating() {
         val stars = arrayOf(
             binding.rowStar1AddReview,
@@ -201,6 +203,7 @@ class AddReviewFragment : Fragment() {
         }
     }
 
+    // Update the star images based on the selected rating
     private fun updateStars(stars: Array<ImageView>, rate: Int) {
         stars.forEachIndexed { index, imageView ->
             if (index < rate) {
@@ -211,6 +214,7 @@ class AddReviewFragment : Fragment() {
         }
     }
 
+    // Set up the activity result launchers for the camera and gallery
     private fun setupActivityResultLaunchers() {
         cameraLauncher = registerForActivityResult(ActivityResultContracts.TakePicturePreview()) { bitmap ->
             bitmap?.let {
@@ -226,6 +230,7 @@ class AddReviewFragment : Fragment() {
             }
         }
 
+        // Set up the button click listeners for camera and gallery
         binding.btnCameraAddReview.setOnClickListener {
             cameraLauncher.launch(null)
         }
@@ -234,6 +239,4 @@ class AddReviewFragment : Fragment() {
             galleryLauncher.launch("image/*")
         }
     }
-
-
 }

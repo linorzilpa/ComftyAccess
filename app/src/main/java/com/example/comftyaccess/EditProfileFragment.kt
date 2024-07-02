@@ -16,9 +16,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.findNavController
 import com.example.comftyaccess.databinding.FragmentEditProfileBinding
-import com.example.comftyaccess.databinding.FragmentMyProfileBinding
 import com.example.comftyaccess.model.Model
-import com.example.comftyaccess.model.Review
 import com.google.firebase.auth.FirebaseAuth
 import com.squareup.picasso.Picasso
 
@@ -27,33 +25,33 @@ class EditProfileFragment : Fragment() {
     private val firebaseAuth: FirebaseAuth by lazy { FirebaseAuth.getInstance() }
     private var accessNeedType: String? = null
     private val accessNeedsOptions = Model.accessNeedsOptions
-    private var isAvatarSelected:Boolean = false
+    private var isAvatarSelected: Boolean = false
     private lateinit var cameraLauncher: ActivityResultLauncher<Void?>
     private lateinit var galleryLauncher: ActivityResultLauncher<String>
 
+    // Set the action bar title when the fragment starts
     override fun onStart() {
         (activity as AppCompatActivity?)!!.supportActionBar!!.title = "Edit profile"
         super.onStart()
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-    }
-
+    // Inflate the fragment's layout and initialize necessary components
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         binding = FragmentEditProfileBinding.inflate(layoutInflater)
         binding.progressBarEP.visibility = View.GONE
         createAccessNeedSpinner()
         bindProfile()
         setupActivityResultLaunchers()
+
+        // Handle the Cancel button click event
         binding.cancelBtEprofile.setOnClickListener { view ->
             findNavController().navigateUp()
         }
+
+        // Handle the Save button click event
         binding.saveBtEprofile.setOnClickListener { view ->
             saveUserUpdate()
         }
@@ -61,6 +59,7 @@ class EditProfileFragment : Fragment() {
         return binding.root
     }
 
+    // Save user profile updates
     private fun saveUserUpdate() {
         binding.progressBarEP.visibility = View.VISIBLE
         Model.instance.getAllUsers { users ->
@@ -69,40 +68,41 @@ class EditProfileFragment : Fragment() {
                 val user = users?.let { Model.instance.getUserByEmail(it, userEmail) }
                 user?.let { usr ->
                     activity?.runOnUiThread {
-
+                        // Update user details
                         usr.accessNeed = binding.accessNeedSpinnerSpinnerFilter.selectedItem.toString()
-                        usr.age =  binding.ageEditText.text.toString().toIntOrNull() ?: usr.age  // Use the existing age if parsing fails
+                        usr.age = binding.ageEditText.text.toString().toIntOrNull() ?: usr.age  // Use the existing age if parsing fails
                         usr.name = binding.fullNameEditText.text.toString()
+
+                        // Check if avatar is selected
                         if (isAvatarSelected) {
                             (binding.userEprofileIv.drawable as? BitmapDrawable)?.let { drawable ->
                                 val bitmap = drawable.bitmap
                                 Model.instance.uploadImage(usr.email, bitmap) { url ->
-                                    usr.img=url!!
-                                    Log.d("EditProfileFragment", "user img url ${usr.img.toString()}")
+                                    usr.img = url!!
+                                    Log.d("EditProfileFragment", "User img url ${usr.img}")
 
                                     Model.instance.addUser(usr) {
-                                        Toast.makeText(requireContext(), "user updated!", Toast.LENGTH_LONG).show()
-                                        Log.d("EditProfileFragment", "user updated with img")
+                                        Toast.makeText(requireContext(), "User updated!", Toast.LENGTH_LONG).show()
+                                        Log.d("EditProfileFragment", "User updated with img")
                                         findNavController().navigateUp()  // Navigate up in the navigation stack
                                     }
                                 }
                             } ?: Log.e("EditProfileFragment", "Failed to cast drawable to BitmapDrawable")
-                        } else{
+                        } else {
                             Model.instance.addUser(usr) {
                                 Toast.makeText(requireContext(), "User updated!", Toast.LENGTH_LONG).show()
                                 Log.d("EditProfileFragment", "User updated without img")
                                 findNavController().navigateUp()  // Navigate up in the navigation stack
                             }
                         }
-
                     }
                 }
             }
             binding.progressBarEP.visibility = View.GONE
         }
-
     }
 
+    // Bind user profile data to the UI
     @SuppressLint("SetTextI18n")
     private fun bindProfile() {
         binding.progressBarEP.visibility = View.VISIBLE
@@ -129,14 +129,13 @@ class EditProfileFragment : Fragment() {
                             binding.userEprofileIv.setImageResource(R.drawable.ic_launcher_foreground)
                         }
                     } ?: binding.userEprofileIv.setImageResource(R.drawable.ic_launcher_foreground)
-
-
                 }
                 binding.progressBarEP.visibility = View.GONE
             }
         }
     }
 
+    // Create the Access Need spinner and set its options
     private fun createAccessNeedSpinner() {
         val adapter = ArrayAdapter(requireContext(), R.layout.spinner_item, accessNeedsOptions)
         binding.accessNeedSpinnerSpinnerFilter.adapter = adapter
@@ -149,6 +148,7 @@ class EditProfileFragment : Fragment() {
         }
     }
 
+    // Set up activity result launchers for the camera and gallery
     private fun setupActivityResultLaunchers() {
         cameraLauncher = registerForActivityResult(ActivityResultContracts.TakePicturePreview()) { bitmap ->
             bitmap?.let {
@@ -164,6 +164,7 @@ class EditProfileFragment : Fragment() {
             }
         }
 
+        // Set up the button click listeners for camera and gallery
         binding.eProfileCameraBt.setOnClickListener {
             cameraLauncher.launch(null)
         }
@@ -172,6 +173,4 @@ class EditProfileFragment : Fragment() {
             galleryLauncher.launch("image/*")
         }
     }
-
-
 }
